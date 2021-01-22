@@ -47,7 +47,7 @@
             [
                 {   
                     "type": "SharedImage",
-                    "galleryImageId": "[concat('/subscriptions/',subscription().id,'/resourceGroups/',resourceGroup().location,'/providers/Microsoft.Compute/galleries/CloudSOESIG/images/WinServer2019-SOE')]",
+                    "galleryImageId": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().location,'/providers/Microsoft.Compute/galleries/CloudSOESIG/images/WinServer2019-SOE')]",
                     "runOutputName": "huh",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
