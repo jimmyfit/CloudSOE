@@ -14,8 +14,8 @@
         "endOfLifeDate": "2030-01-01",
         "identifier": {
           "publisher": "MyOrganisation",
-          "offer": "Windows Server SOE",
-          "sku": "Windows Server 2019"
+          "offer": "WindowsServerSOE",
+          "sku": "WindowsServer2019"
         },
         "recommended": {
           "vCPUs": {
