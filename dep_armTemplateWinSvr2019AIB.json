@@ -1,44 +1,20 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-      "imageTemplateName": {
-        "type": "string"
-        },
-        "api-version": {
-          "type": "string"
-        },
-        "svclocation": {
-            "type": "string"
-        },
-        "rgName": {
-            "type": "string"
-        }
-    },
-    
-    "variables": {
-    },
-
-
     "resources": [
       {
-        "name": "[parameters('imageTemplateName')]",
+        "name": "WindowsServer2019SOE",
         "type": "Microsoft.VirtualMachineImages/imageTemplates",
-        "apiVersion": "[parameters('api-version')]",
-        "location": "[parameters('svclocation')]",
+        "apiVersion": "2020-02-14",
+        "location": "[resourceGroup().location]",
         "dependsOn": [],
-        "tags": {
-            "imagebuilderTemplate": "AzureImageBuilderSIG",
-            "userIdentity": "enabled"
-                },
-            "identity": {
-                "type": "UserAssigned",
-                        "userAssignedIdentities": {
-                        "<imgBuilderId>": {}
-                            
-                    }
-                    },
-        
+        "identity": {
+            "type": "UserAssigned",
+                    "userAssignedIdentities": {
+                    "<imgBuilderId>": {}
+                        
+                }
+        },
         "properties": {
             "buildTimeoutInMinutes" : 100,
 
@@ -64,14 +40,14 @@
                 {   
                     "type": "SharedImage",
                     "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>",
-                    "runOutputName": "<runOutputName>",
+                    "runOutputName": "huh",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
                         "baseosimg": "windows2019"
                     },
                     "replicationRegions": [
-                      "<region1>",
-                      "<region2>"
+                      "australiacentral",
+                      "australiacentral2"
                     ]
                 }
             ]
