@@ -1,6 +1,9 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
+    "variables": {
+        "roleAssignmentName": "[guid(parameters('principalId'), parameters('roleDefinitionID'), resourceGroup().id)]"
+    },
     "resources": [
         {
             "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
@@ -8,13 +11,28 @@
             "apiVersion": "2018-11-30",
             "location": "[resourceGroup().location]"
         },
+        
+
+        {
+        "type": "Microsoft.Authorization/roleAssignments",
+        "apiVersion": "2020-04-01-preview",
+        "name": "[variables('roleAssignmentName')]",
+        "dependsOn": [
+            "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'AIB')]"
+        ],
+        "properties": {
+            "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+            "principalId": "[reference('AIB','2018-11-30').properties.principalId]",
+            "scope": "[resourceGroup().id]"
+        }
+        },
       {
         "name": "WindowsServer2019SOE",
         "type": "Microsoft.VirtualMachineImages/imageTemplates",
         "apiVersion": "2020-02-14",
         "location": "eastus",
         "dependsOn": [
-            "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'AIB')]"
+            "[resourceId('Microsoft.Authorization/roleAssignments', variables('roleAssignmentName'))]"
         ],
         "identity": {
             "type": "UserAssigned",
