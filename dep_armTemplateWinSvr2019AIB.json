@@ -6,7 +6,7 @@
         "name": "WindowsServer2019SOE",
         "type": "Microsoft.VirtualMachineImages/imageTemplates",
         "apiVersion": "2020-02-14",
-        "location": "[resourceGroup().location]",
+        "location": "eastus",
         "dependsOn": [],
         "identity": {
             "type": "UserAssigned",
