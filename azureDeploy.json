@@ -15,7 +15,7 @@
                 "mode": "Incremental",
                 "templateLink": {
                     "contentVersion": "1.0.0.0",
-                    "uri": "[uri(deployment().properties.templateLink.uri, 'dep_armTemplateSIG')]"
+                    "uri": "[uri(deployment().properties.templateLink.uri, 'dep_armTemplateSIG.json')]"
                 },
                 "parameters": {
                 }
