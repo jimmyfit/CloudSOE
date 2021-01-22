@@ -10,7 +10,6 @@
             "name": "SIG",
             "dependsOn": [
             ],
-            "location": "australiaeast",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
