@@ -27,7 +27,7 @@
         }
         },
       {
-        "name": "WindowsServer2019SOE2",
+        "name": "WindowsServer2019SOE3",
         "type": "Microsoft.VirtualMachineImages/imageTemplates",
         "apiVersion": "2020-02-14",
         "location": "eastus",
@@ -65,7 +65,7 @@
             [
                 {   
                     "type": "SharedImage",
-                    "galleryImageId": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().location,'/providers/Microsoft.Compute/galleries/CloudSOESIG/images/WinServer2019-SOE')]",
+                    "galleryImageId": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name,'/providers/Microsoft.Compute/galleries/CloudSOESIG/images/WinServer2019-SOE')]",
                     "runOutputName": "huh",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
