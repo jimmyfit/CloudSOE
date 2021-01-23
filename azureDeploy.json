@@ -5,10 +5,20 @@
     },
     "resources": [
         {
+            "name": "CloudSOEImageRG",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2020-06-01",
+            "location": "australiaeast",
+            "tags": {},
+            "properties": {
+            }
+        },
+        {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
             "name": "SIG",
             "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups', 'CloudSOEImageRG')]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -52,6 +62,15 @@
                 },
                 "parameters": {
                 }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('5ffd78d9-436d-4b41-a421-5baa819e3008', resourceGroup().name)]",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "scope": "[subscription().id]",
+                "policyDefinitionId": "5ffd78d9-436d-4b41-a421-5baa819e3008"
             }
         }
     ]
