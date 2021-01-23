@@ -70,7 +70,11 @@
             "apiVersion": "2019-09-01",
             "properties": {
                 "scope": "[subscription().id]",
-                "policyDefinitionId": "5ffd78d9-436d-4b41-a421-5baa819e3008"
+                "policyDefinitionId": "5ffd78d9-436d-4b41-a421-5baa819e3008",
+                "parameters":  {
+                    "Tag Name": "Production",
+                    "Tag Value": "True"
+                }
             }
         }
     ]
