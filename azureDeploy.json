@@ -78,7 +78,7 @@
         },
         {
             "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('5ffd78d9-436d-4b41-a421-5baa819e3008', resourceGroup().name)]",
+            "name": "[guid('5ffd78d9-436d-4b41-a421-5baa819e3008', 'CloudSOEImageRG')]",
             "apiVersion": "2019-09-01",
             "properties": {
                 "scope": "[subscription().id]",
@@ -91,7 +91,7 @@
         },
         {
             "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', resourceGroup().name)]",
+            "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG')]",
             "apiVersion": "2019-09-01",
             "properties": {
                 "scope": "[subscription().id]",
@@ -106,7 +106,7 @@
         },
         {
             "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', resourceGroup().name)]",
+            "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG')]",
             "apiVersion": "2019-09-01",
             "properties": {
                 "scope": "[subscription().id]",
