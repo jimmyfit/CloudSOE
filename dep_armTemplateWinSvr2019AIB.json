@@ -72,8 +72,7 @@
                         "baseosimg": "windows2019"
                     },
                     "replicationRegions": [
-                      "australiacentral",
-                      "australiacentral2"
+                      "eastus"
                     ]
                 }
             ]
