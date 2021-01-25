@@ -157,10 +157,10 @@
             ],
             "properties": {
                 "scope": "[subscription().id]",
-                "policyDefinitionId": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]",            
+                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",            
                 "parameters":  {
                     "automanageAccount": {
-                        "value": "CloudSOEAutomanage"
+                        "value": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]"
                     },
                     "configurationProfileAssignment": {
                         "value": "Azure virtual machine best practices – Dev/test"
