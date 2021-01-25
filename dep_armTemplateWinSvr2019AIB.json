@@ -27,7 +27,7 @@
         }
         },
       {
-        "name": "WindowsServer2019SOE3",
+        "name": "WindowsServer2019SOE",
         "type": "Microsoft.VirtualMachineImages/imageTemplates",
         "apiVersion": "2020-02-14",
         "location": "eastus",
