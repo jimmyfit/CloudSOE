@@ -128,7 +128,7 @@
                         "value": "CloudSOEAutomanage"
                     },
                     "configurationProfileAssignment": {
-                        "value": "Azure virtual machine best practices – Dev/Test"
+                        "value": "Azure virtual machine best practices – Dev/test"
                     },
                     "TagName": {
                         "value": "Production"
