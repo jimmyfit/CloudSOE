@@ -17,7 +17,6 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
             "name": "SIG",
-            "location": "[deployment().location]",
             "resourceGroup": "CloudSOEImageRG", 
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups', 'CloudSOEImageRG')]"
@@ -36,7 +35,6 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
             "name": "SIGImage",
-            "location": "[deployment().location]",
             "resourceGroup": "CloudSOEImageRG", 
             "dependsOn": [
                 "SIG"
@@ -55,7 +53,6 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
             "name": "AIB",
-            "location": "[deployment().location]",
             "resourceGroup": "CloudSOEImageRG", 
             "dependsOn": [
                 "SIGImage"
