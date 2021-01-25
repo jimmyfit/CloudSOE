@@ -103,7 +103,7 @@
             },
             "properties": {
                 "scope": "[subscription().id]",
-                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/55834165-d4ea-44b6-97a6-02974364eec",
+                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/55834165-d4ea-44b6-97a6-02974364eec8",
                 "parameters":  {
                     "tagName": {
                         "value": "Production"
