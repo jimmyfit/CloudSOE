@@ -84,10 +84,10 @@
                 "scope": "[subscription().id]",
                 "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5ffd78d9-436d-4b41-a421-5baa819e3008",
                 "parameters":  {
-                    "Tag Name": {
+                    "tagName": {
                         "value": "Production"
                     },
-                    "Tag Value": {
+                    "tagValue": {
                         "value": "True"
                     }
                 }
@@ -101,6 +101,9 @@
             "identity": {
                 "type": "SystemAssigned"
             },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automanage/accounts', 'CloudSOEAutomanage')]"
+            ],
             "properties": {
                 "scope": "[subscription().id]",
                 "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",
@@ -128,6 +131,9 @@
             "identity": {
                 "type": "SystemAssigned"
             },
+            "dependsOn": [
+                "[resourceId('Microsoft.Automanage/accounts', 'CloudSOEAutomanage')]"
+            ],
             "properties": {
                 "scope": "[subscription().id]",
                 "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",            
