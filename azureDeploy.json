@@ -75,13 +75,19 @@
             "properties": {
                 "mode": "Incremental",
                 "template": {
-                    "apiVersion": "2020-06-30-preview",
-                    "name": "CloudSOEAutomanage",
-                    "location": "eastus",
-                    "type": "Microsoft.Automanage/accounts",
-                    "identity": {
-                        "type": "SystemAssigned"
-                    }
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "apiVersion": "2020-06-30-preview",
+                            "name": "CloudSOEAutomanage",
+                            "location": "eastus",
+                            "type": "Microsoft.Automanage/accounts",
+                            "identity": {
+                                "type": "SystemAssigned"
+                            }
+                        }
+                    ]
                 },
                 "parameters": {
                 }
