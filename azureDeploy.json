@@ -146,7 +146,7 @@
         },
         {
             "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2019-09-01",
+            "apiVersion": "2018-07-01",
             "name": "[guid('roleassignment1')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Authorization/policyAssignments', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG'))]"
@@ -189,7 +189,7 @@
         },
         {
             "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2019-09-01",
+            "apiVersion": "2018-07-01",
             "name": "[guid('roleassignment2')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Authorization/policyAssignments', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG'))]"
