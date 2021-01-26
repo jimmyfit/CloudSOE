@@ -149,7 +149,7 @@
             "apiVersion": "2020-04-01-preview",
             "name": "[guid('roleassignment1')]",
             "dependsOn": [
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG'))]"
+                "[resourceId('Microsoft.Authorization/policyAssignments', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG'))]"
             ],
             "properties": {
                 "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
@@ -192,7 +192,7 @@
             "apiVersion": "2020-04-01-preview",
             "name": "[guid('roleassignment2')]",
             "dependsOn": [
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG'))]"
+                "[resourceId('Microsoft.Authorization/policyAssignments', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG'))]"
             ],
             "properties": {
                 "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
