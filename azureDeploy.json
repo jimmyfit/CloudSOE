@@ -2,21 +2,44 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "policyScopeId": {
+            "type": "string",
+            "metadata": {
+                "description": "The scope at which policies, relating to the cloud SOE, will be assigned."
+            }
+        },
+        "workspaceId": {
+            "type": "string",
+            "metadata": {
+                "description": "The Log Analytics Workspace where any data sources will be directed."
+            }
+        }
+
     },
     "resources": [
         {
             "name": "CloudSOEImageRG",
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2020-06-01",
+            "location": "eastus"
+        },
+        {
+            "apiVersion": "2020-06-30-preview",
+            "name": "CloudSOEAutomanage",
             "location": "eastus",
-            "tags": {},
-            "properties": {
+            "type": "Microsoft.Automanage/accounts",
+            "resourceGroup": "CloudSOEImageRG",
+            "dependsOn":[
+                "[resourceId('Microsoft.Resources/resourceGroups', 'CloudSOEImageRG')]"
+            ],
+            "identity": {
+                "type": "SystemAssigned"
             }
         },
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "name": "SIG",
+            "name": "CloudSOEImageDeployment",
             "resourceGroup": "CloudSOEImageRG", 
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups', 'CloudSOEImageRG')]"
@@ -25,35 +48,14 @@
                 "mode": "Incremental",
                 "templateLink": {
                     "contentVersion": "1.0.0.0",
-                    "uri": "[uri(deployment().properties.templateLink.uri, 'dep_armTemplateSIG.json')]"
-                },
-                "parameters": {
+                    "uri": "[uri(deployment().properties.templateLink.uri, 'arm-cloudsoe-image.json')]"
                 }
             }
         },
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "name": "SIGImage",
-            "resourceGroup": "CloudSOEImageRG", 
-            "dependsOn": [
-                "SIG"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[uri(deployment().properties.templateLink.uri, 'dep_armTemplateSIGImage.json')]"
-                },
-                "parameters": {
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-05-01",
-            "name": "AIB",
-            "resourceGroup": "CloudSOEImageRG", 
+            "name": "CloudSOEPolicyBaselineDeployment",
             "dependsOn": [
                 "SIGImage"
             ],
@@ -61,167 +63,16 @@
                 "mode": "Incremental",
                 "templateLink": {
                     "contentVersion": "1.0.0.0",
-                    "uri": "[uri(deployment().properties.templateLink.uri, 'dep_armTemplateWinSvr2019AIB.json')]"
+                    "uri": "[uri(deployment().properties.templateLink.uri, 'arm-cloudsoe-policy-baseline.json')]"
                 },
                 "parameters": {
+                    "policyScopeId": "[parameters('policyScopeId')]",
+                    "workspaceId": "[parameters('workspaceId')]",
+                    "windowsSOEImageArray": [
+                        "[reference('CloudSOEImageDeployment').outputs.ImageId.value]"
+                    ],
+                    "linuxSOEImageArray": []
                 }
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-05-01",
-            "name": "AutomanageAccount",
-            "resourceGroup": "CloudSOEImageRG",
-            "dependsOn":[
-                "[resourceId('Microsoft.Resources/resourceGroups', 'CloudSOEImageRG')]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "resources": [
-                        {
-                            "apiVersion": "2020-06-30-preview",
-                            "name": "CloudSOEAutomanage",
-                            "location": "eastus",
-                            "type": "Microsoft.Automanage/accounts",
-                            "identity": {
-                                "type": "SystemAssigned"
-                            }
-                        }
-                    ]
-                },
-                "parameters": {
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('55834165-d4ea-44b6-97a6-02974364eec8', 'CloudSOEImageRG')]",
-            "apiVersion": "2019-09-01",
-            "location": "eastus",
-            "identity": {
-                "type": "SystemAssigned"
-            },
-            "properties": {
-                "scope": "[subscription().id]",
-                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/55834165-d4ea-44b6-97a6-02974364eec8",
-                "parameters":  {
-                    "tagName": {
-                        "value": "Production"
-                    },
-                    "tagValue": {
-                        "value": "True"
-                    }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('55834165-d4ea-44b6-97a6-02974364eec8', '2', 'CloudSOEImageRG')]",
-            "apiVersion": "2019-09-01",
-            "location": "eastus",
-            "identity": {
-                "type": "SystemAssigned"
-            },
-            "properties": {
-                "scope": "[subscription().id]",
-                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/55834165-d4ea-44b6-97a6-02974364eec8",
-                "parameters":  {
-                    "tagName": {
-                        "value": "SOE"
-                    },
-                    "tagValue": {
-                        "value": "True"
-                    }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG')]",
-            "apiVersion": "2019-09-01",
-            "location": "eastus",
-            "identity": {
-                "type": "SystemAssigned"
-            },
-            "dependsOn": [
-                "AutomanageAccount"
-            ],
-            "properties": {
-                "scope": "[subscription().id]",
-                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",
-                "parameters":  {
-                    "automanageAccount": {
-                        "value": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]"
-                    },
-                    "configurationProfileAssignment": {
-                        "value": "Azure virtual machine best practices – Production"
-                    },
-                    "TagName": {
-                        "value": "Production"
-                    },
-                    "TagValue": {
-                        "value": "True"
-                    }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2018-07-01",
-            "name": "[guid('roleassignment1')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Authorization/policyAssignments', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG'))]"
-            ],
-            "properties": {
-                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
-                "principalId": "[reference(guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG'),'2019-09-01','Full').Identity.principalId]",
-                "scope": "[subscription().id]"
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG')]",
-            "apiVersion": "2019-09-01",
-            "location": "eastus",
-            "identity": {
-                "type": "SystemAssigned"
-            },
-            "dependsOn": [
-                "AutomanageAccount"
-            ],
-            "properties": {
-                "scope": "[subscription().id]",
-                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",            
-                "parameters":  {
-                    "automanageAccount": {
-                        "value": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]"
-                    },
-                    "configurationProfileAssignment": {
-                        "value": "Azure virtual machine best practices – Dev/test"
-                    },
-                    "TagName": {
-                        "value": "Production"
-                    },
-                    "TagValue": {
-                        "value": "False"
-                    }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2018-07-01",
-            "name": "[guid('roleassignment2')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Authorization/policyAssignments', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG'))]"
-            ],
-            "properties": {
-                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
-                "principalId": "[reference(guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG'),'2019-09-01','Full').Identity.principalId]",
-                "scope": "[subscription().id]"
             }
         }
     ]

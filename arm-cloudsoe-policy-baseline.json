@@ -1,0 +1,192 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "policyScopeId": {
+            "type": "string",
+            "metadata": {
+                "description": "The scope at which policies, relating to the cloud SOE, will be assigned."
+            }
+        },
+        "workspaceId": {
+            "type": "string",
+            "metadata": {
+                "description": "The Log Analytics Workspace where any data sources will be directed."
+            }
+        },
+        "windowsSOEImageArray": {
+            "type": "array",
+            "metadata": {
+                "description": "An array of all Windows SOE image IDs."
+            },
+            "defaultValue": []
+        },
+        "linuxSOEImageArray": {
+            "type": "array",
+            "metadata": {
+                "description": "An array of all Linux SOE image IDs."
+            },
+            "defaultValue": []
+        }
+    },
+    "variables": {
+        "assignedBy": "CloudSOE Policy Baseline"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('55f3eceb-5573-4f18-9695-226972c6d74a',parameters('policyScopeId'))]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "displayName": "Enable Azure Monitor for VMs",
+                "metadata": {
+                    "assignedBy": "[variables('assignedBy')]"
+                },
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/55f3eceb-5573-4f18-9695-226972c6d74a",
+                "parameters": {
+                    "logAnalytics_1": {
+                        "value": "[parameters('workspaceId')]"
+                    },
+                    "listofImageIdToInclude_windows": {
+                        "value": "[parameters('windowsSOEImageArray')]"
+                    },
+                    "listofImageIdToInclude_linux": {
+                        "value": "[parameters('linuxSOEImageArray')]"
+                    }
+                }
+            }
+        },
+                {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "dependsOn": [
+                "AutomanageAccount"
+            ],
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",            
+                "parameters":  {
+                    "automanageAccount": {
+                        "value": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]"
+                    },
+                    "configurationProfileAssignment": {
+                        "value": "Azure virtual machine best practices – Dev/test"
+                    },
+                    "TagName": {
+                        "value": "Production"
+                    },
+                    "TagValue": {
+                        "value": "False"
+                    }
+                }
+            }
+        },
+                {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "dependsOn": [
+                "AutomanageAccount"
+            ],
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",
+                "parameters":  {
+                    "automanageAccount": {
+                        "value": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]"
+                    },
+                    "configurationProfileAssignment": {
+                        "value": "Azure virtual machine best practices – Production"
+                    },
+                    "TagName": {
+                        "value": "Production"
+                    },
+                    "TagValue": {
+                        "value": "True"
+                    }
+                }
+            }
+        },
+                {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('55834165-d4ea-44b6-97a6-02974364eec8', '2', 'CloudSOEImageRG')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/55834165-d4ea-44b6-97a6-02974364eec8",
+                "parameters":  {
+                    "tagName": {
+                        "value": "SOE"
+                    },
+                    "tagValue": {
+                        "value": "True"
+                    }
+                }
+            }
+        },
+                {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('55834165-d4ea-44b6-97a6-02974364eec8', 'CloudSOEImageRG')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/55834165-d4ea-44b6-97a6-02974364eec8",
+                "parameters":  {
+                    "tagName": {
+                        "value": "Production"
+                    },
+                    "tagValue": {
+                        "value": "True"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-07-01",
+            "name": "[guid('roleassignment1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyAssignments', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+                "principalId": "[reference(guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG'),'2019-09-01','Full').Identity.principalId]",
+                "scope": "[subscription().id]"
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-07-01",
+            "name": "[guid('roleassignment2')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyAssignments', guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+                "principalId": "[reference(guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG'),'2019-09-01','Full').Identity.principalId]",
+                "scope": "[subscription().id]"
+            }
+        }
+    ]
+}

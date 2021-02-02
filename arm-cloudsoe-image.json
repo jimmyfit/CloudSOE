@@ -1,0 +1,156 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "publisher": { 
+            "type": "string",
+            "defaultValue": "MyOrganisation",
+            "metadata": {
+                "description": "Publisher that will be associated with all generated images."
+            }
+        }
+    },
+    "variables": {
+        "roleAssignmentName": "[guid('b24988ac-6180-42a0-ab88-20f7382dd24c', resourceGroup().id)]",
+        "utcValue": "[utcNow()]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/galleries",
+            "name": "CloudSOESIG",
+            "apiVersion": "2019-12-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "description": "CloudSOE Image Gallery"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/galleries/images",
+            "name": "CloudSOESIG/WinServer2019-SOE",
+            "apiVersion": "2019-12-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/galleries', 'CloudSOESIG')]"
+            ],
+            "properties": {
+                "description": "Windows Server 2019 SOE",
+                "osType": "Windows",
+                "osState": "Generalized",
+                "endOfLifeDate": "2030-01-01",
+                "identifier": {
+                "publisher": "[parameters('publisher')]",
+                "offer": "WindowsServerSOE",
+                "sku": "WindowsServer2019"
+                },
+                "recommended": {
+                "vCPUs": {
+                    "min": "1",
+                    "max": "64"
+                },
+                "memory": {
+                    "min": "2048",
+                    "max": "307720"
+                }
+                }
+            }
+        },
+                {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+            "name": "AIB",
+            "apiVersion": "2018-11-30",
+            "location": "[resourceGroup().location]"
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2020-04-01-preview",
+            "name": "[variables('roleAssignmentName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'AIB')]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+                "principalId": "[reference('AIB','2018-11-30').principalId]",
+                "scope": "[resourceGroup().id]",
+                "principalType": "ServicePrincipal"
+            }
+        },
+        {
+            "name": "WindowsServer2019SOE",
+            "type": "Microsoft.VirtualMachineImages/imageTemplates",
+            "apiVersion": "2020-02-14",
+            "location": "eastus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments', variables('roleAssignmentName'))]"
+            ],
+            "identity": {
+                "type": "UserAssigned",
+                        "userAssignedIdentities": {
+                        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'AIB')]": {}
+                            
+                    }
+            },
+            "properties": {
+                "buildTimeoutInMinutes" : 100,
+
+                "vmProfile": 
+                        {
+                        "vmSize": "Standard_D1_v2",
+                        "osDiskSizeGB": 127
+                        },
+            
+                "source": {
+                    "type": "PlatformImage",
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2019-Datacenter",
+                    "version": "latest"
+                    
+                },
+                "customize": [
+
+                ],
+                "distribute": 
+                [
+                    {   
+                        "type": "SharedImage",
+                        "galleryImageId": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name,'/providers/Microsoft.Compute/galleries/CloudSOESIG/images/WinServer2019-SOE')]",
+                        "runOutputName": "BuildOutput",
+                        "artifactTags": {
+                            "source": "azureVmImageBuilder",
+                            "baseosimg": "windows2019"
+                        },
+                        "replicationRegions": [
+                        "eastus"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deploymentScripts",
+            "apiVersion": "2020-10-01",
+            "name": "AIBImageBuild",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.VirtualMachineImages/imageTemplates', 'WindowsServer2019SOE')]"
+            ],
+            "kind": "AzureCLI",
+            "properties": {
+                "azCliVersion": "latest",
+                "forceUpdateTag": "[variables('utcValue')]",
+                "timeout": "PT60M",
+                "arguments": "[concat('''', resourceGroup().name, ''' ''', 'WindowsServer2019SOE''')]",
+                "scriptContent": "az resource invoke-action --resource-group $1 --resource-type  Microsoft.VirtualMachineImages/imageTemplates -n $2 --action Run
+                                  az image builder show-runs -g CloudSOEImageRG -n WindowsServer2019SOE --output-name BuildOutput > $AZ_SCRIPTS_OUTPUT_PATH",
+                "cleanupPreference": "OnSuccess",
+                "retentionInterval": "P1D"
+            }
+        }
+    ],
+    "outputs": {
+        "imageId": {
+            "value": "[reference('AIBImageBuild').outputs.artifactId]",
+            "type": "string"
+        }
+    }
+}
