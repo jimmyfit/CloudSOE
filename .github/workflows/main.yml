@@ -27,6 +27,7 @@ jobs:
           template: https://raw.githubusercontent.com/jimmyfit/CloudSOE/master/azureDeploy.json
           scope: subscription
           region: eastus
+          subscriptionId: ${{ secrets.AZURE_CREDENTIALS.subscriptionId }}
       - name: Run Azure Image Builder build
         run: |
           az resource invoke-action \
