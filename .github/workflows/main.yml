@@ -33,16 +33,10 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           template: https://raw.githubusercontent.com/jimmyfit/CloudSOE/master/azureDeploy.json
+          parameters: policyScopeId=${{ secrets.TESTDEPLOYMENT_POLICYSCOPEID }} workspaceId=${{ secrets.TESTDEPLOYMENT_WORKSPACEID }}
           scope: subscription
           region: eastus
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTIONID }}
-      - name: Run Azure Image Builder build
-        run: |
-          az resource invoke-action \
-           --resource-group CloudSOEImageRG \
-           --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-           -n WindowsServer2019SOE \
-           --action Run  
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTIONID }} 
       - name: Deploy the test VM
         run: |
           az vm create \
