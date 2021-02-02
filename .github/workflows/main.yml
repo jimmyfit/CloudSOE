@@ -25,7 +25,6 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           template: ./azureDeploy.json
-          deploymentMode: complete
           scope: subscription
           region: eastus
       - name: Run Azure Image Builder build
