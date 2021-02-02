@@ -23,7 +23,7 @@ jobs:
       - name: Azure deployment
         uses: azure/arm-deploy@v1
         with:
-          template: /azureDeploy.json
+          template: azureDeploy.json
           deploymentMode: complete
       - name: Run Azure Image Builder build
         run: |
