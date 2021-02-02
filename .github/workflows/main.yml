@@ -28,7 +28,7 @@ jobs:
       - name: Azure deployment
         uses: azure/arm-deploy@v1
         with:
-          template: https://raw.githubusercontent.com/jimmyfit/CloudSOE/master/azureDeploy.json
+          template: azureDeploy.json
           scope: subscription
           region: eastus
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTIONID }}
@@ -38,6 +38,15 @@ jobs:
            --resource-group CloudSOEImageRG \
            --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
            -n WindowsServer2019SOE \
-           --action Run                  
+           --action Run  
+      - name: Deploy the test VM
+        run: |
+          az vm create \
+          --resource-group CloudSOEImageRG \
+          --name TestVM \
+          --admin-username ${{ secrets.TESTVM_USERNAME }} \
+          --admin-password ${{ secrets.TESTVM_PASSWORD }} \
+          --image ${{ secrets.TESTVM_IMAGENAME }} \
+          --location eastus                  
 
 
