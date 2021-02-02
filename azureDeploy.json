@@ -119,6 +119,27 @@
         },
         {
             "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('55834165-d4ea-44b6-97a6-02974364eec8', '2', 'CloudSOEImageRG')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[subscription().id]",
+                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/55834165-d4ea-44b6-97a6-02974364eec8",
+                "parameters":  {
+                    "tagName": {
+                        "value": "SOE"
+                    },
+                    "tagValue": {
+                        "value": "True"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
             "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847', 'CloudSOEImageRG')]",
             "apiVersion": "2019-09-01",
             "location": "eastus",
