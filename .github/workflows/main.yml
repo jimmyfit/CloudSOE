@@ -1,0 +1,39 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Remove old resource group
+        run: |
+          az group delete --name CloudSOEImageRG -y 2> /dev/null
+        continue-on-error: true
+      - uses: actions/checkout@master
+      - name: Azure deployment
+        uses: azure/arm-deploy@v1
+        with:
+          template: https://raw.githubusercontent.com/jimmyfit/CloudSOE/master/azureDeploy.json
+          scope: subscription
+          region: eastus
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTIONID }}
+      - name: Run Azure Image Builder build
+        run: |
+          az resource invoke-action \
+           --resource-group CloudSOEImageRG \
+           --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+           -n WindowsServer2019SOE \
+           --action Run                  
+
+
