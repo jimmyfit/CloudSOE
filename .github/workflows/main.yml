@@ -18,11 +18,12 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Remove old resource group
         run: |
-          az group delete --name CloudSOEImageRG -y
+          az group delete --name CloudSOEImageRG -y 2> /dev/null
       - name: Azure deployment
         uses: azure/arm-deploy@v1
         with:
           template: /azuredeploy.json
+          deploymentMode: complete
       - name: Run Azure Image Builder build
         run: |
           az resource invoke-action \
