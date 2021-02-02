@@ -16,6 +16,10 @@ jobs:
         uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Cancel previous deployment
+        run: |
+          az deployment sub cancel -n azureDeploy
+        continue-on-error: true
       - name: Remove old resource group
         run: |
           az group delete --name CloudSOEImageRG -y 2> /dev/null
