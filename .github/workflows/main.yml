@@ -24,11 +24,15 @@ jobs:
         run: |
           az group delete --name CloudSOEImageRG -y 2> /dev/null
         continue-on-error: true
+      - name: Wait for Github HTTP cache TTL
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '300s'
       - uses: actions/checkout@master
       - name: Azure deployment
         uses: azure/arm-deploy@v1
         with:
-          template: azureDeploy.json
+          template: https://raw.githubusercontent.com/jimmyfit/CloudSOE/master/azureDeploy.json
           scope: subscription
           region: eastus
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTIONID }}
