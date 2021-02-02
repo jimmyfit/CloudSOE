@@ -27,6 +27,7 @@ jobs:
           template: ./azureDeploy.json
           deploymentMode: complete
           scope: subscription
+          region: eastus
       - name: Run Azure Image Builder build
         run: |
           az resource invoke-action \
