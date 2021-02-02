@@ -72,6 +72,9 @@
             "apiVersion": "2019-05-01",
             "name": "AutomanageAccount",
             "resourceGroup": "CloudSOEImageRG",
+            "dependsOn":[
+                "[resourceId('Microsoft.Resources/resourceGroups', 'CloudSOEImageRG')]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "template": {
