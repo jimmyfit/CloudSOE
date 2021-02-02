@@ -16,10 +16,18 @@ jobs:
         uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Cancel previous deployment
+        run: |
+          az deployment sub cancel -n azureDeploy
+        continue-on-error: true
       - name: Remove old resource group
         run: |
           az group delete --name CloudSOEImageRG -y 2> /dev/null
         continue-on-error: true
+      - name: Wait for Github HTTP cache TTL
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '300s'
       - uses: actions/checkout@master
       - name: Azure deployment
         uses: azure/arm-deploy@v1
@@ -34,6 +42,15 @@ jobs:
            --resource-group CloudSOEImageRG \
            --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
            -n WindowsServer2019SOE \
-           --action Run                  
+           --action Run  
+      - name: Deploy the test VM
+        run: |
+          az vm create \
+          --resource-group CloudSOEImageRG \
+          --name TestVM \
+          --admin-username ${{ secrets.TESTVM_USERNAME }} \
+          --admin-password ${{ secrets.TESTVM_PASSWORD }} \
+          --image ${{ secrets.TESTVM_IMAGENAME }} \
+          --location eastus                  
 
 
