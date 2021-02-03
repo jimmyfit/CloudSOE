@@ -142,7 +142,7 @@
             "properties": {
                 "azCliVersion": "2.9.1",
                 "forceUpdateTag": "[parameters('utcValue')]",
-                "timeout": "PT60M",
+                "timeout": "PT2H",
                 "arguments": "[concat('''', resourceGroup().name, ''' ''', 'WindowsServer2019SOE''')]",
                 "scriptContent": "az resource invoke-action --resource-group $1 --resource-type  Microsoft.VirtualMachineImages/imageTemplates -n $2 --action Run
                                   az image builder show-runs -g CloudSOEImageRG -n WindowsServer2019SOE --output-name BuildOutput > $AZ_SCRIPTS_OUTPUT_PATH",
