@@ -140,7 +140,7 @@
             ],
             "kind": "AzureCLI",
             "properties": {
-                "azCliVersion": "latest",
+                "azCliVersion": "2.9.1",
                 "forceUpdateTag": "[parameters('utcValue')]",
                 "timeout": "PT60M",
                 "arguments": "[concat('''', resourceGroup().name, ''' ''', 'WindowsServer2019SOE''')]",
