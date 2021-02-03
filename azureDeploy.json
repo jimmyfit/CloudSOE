@@ -28,7 +28,6 @@
             "name": "CloudSOEAutomanage",
             "location": "eastus",
             "type": "Microsoft.Automanage/accounts",
-            "resourceGroup": "CloudSOEImageRG",
             "dependsOn":[
                 "[resourceId('Microsoft.Resources/resourceGroups', 'CloudSOEImageRG')]"
             ],
