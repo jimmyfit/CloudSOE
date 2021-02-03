@@ -8,11 +8,14 @@
             "metadata": {
                 "description": "Publisher that will be associated with all generated images."
             }
+        },
+        "utcValue": {
+            "type": "string",
+            "defaultValue": "[utcNow()]"
         }
     },
     "variables": {
-        "roleAssignmentName": "[guid('b24988ac-6180-42a0-ab88-20f7382dd24c', resourceGroup().id)]",
-        "utcValue": "[utcNow()]"
+        "roleAssignmentName": "[guid('b24988ac-6180-42a0-ab88-20f7382dd24c', resourceGroup().id)]"
     },
     "resources": [
         {
@@ -137,7 +140,7 @@
             "kind": "AzureCLI",
             "properties": {
                 "azCliVersion": "latest",
-                "forceUpdateTag": "[variables('utcValue')]",
+                "forceUpdateTag": "[parameters('utcValue')]",
                 "timeout": "PT60M",
                 "arguments": "[concat('''', resourceGroup().name, ''' ''', 'WindowsServer2019SOE''')]",
                 "scriptContent": "az resource invoke-action --resource-group $1 --resource-type  Microsoft.VirtualMachineImages/imageTemplates -n $2 --action Run
