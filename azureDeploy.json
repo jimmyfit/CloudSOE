@@ -23,15 +23,29 @@
             "location": "eastus"
         },
         {
-            "apiVersion": "2020-06-30-preview",
-            "name": "CloudSOEAutomanage",
-            "location": "eastus",
-            "type": "Microsoft.Automanage/accounts",
-            "dependsOn":[
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-05-01",
+            "name": "CloudSOEAutomanageAccountDeployment",
+            "resourceGroup": "CloudSOEImageRG",
+            "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups', 'CloudSOEImageRG')]"
             ],
-            "identity": {
-                "type": "SystemAssigned"
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "apiVersion": "2020-06-30-preview",
+                            "name": "CloudSOEAutomanage",
+                            "type": "Microsoft.Automanage/accounts",
+                            "identity": {
+                                "type": "SystemAssigned"
+                            }
+                        }
+                    ]
+                }
             }
         },
         {
