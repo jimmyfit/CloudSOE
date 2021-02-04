@@ -89,8 +89,7 @@
             "identity": {
                 "type": "UserAssigned",
                         "userAssignedIdentities": {
-                        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'AIB')]": {}
-                            
+                            "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'AIB')]": {}  
                     }
             },
             "properties": {
@@ -139,14 +138,21 @@
                 "[resourceId('Microsoft.VirtualMachineImages/imageTemplates', 'WindowsServer2019SOE')]"
             ],
             "kind": "AzureCLI",
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'AIB')]": {} 
+                }
+            },
             "properties": {
                 "azCliVersion": "2.9.1",
                 "forceUpdateTag": "[parameters('utcValue')]",
                 "timeout": "PT2H",
-                "arguments": "[concat('''', resourceGroup().name, ''' ''', 'WindowsServer2019SOE''')]",
+                "arguments": "[concat('''', resourceGroup().id,''' ''', 'WindowsServer2019SOE', '''')]",
                 "scriptContent": "
+                    az login --identity
                     az image builder run -g $1 -n $2
-                    az image builder show-runs -g CloudSOEImageRG -n WindowsServer2019SOE --output-name BuildOutput > $AZ_SCRIPTS_OUTPUT_PATH
+                    az image builder show-runs -g $1 -n $2 --output-name BuildOutput > $AZ_SCRIPTS_OUTPUT_PATH
                 ",
                 "cleanupPreference": "OnSuccess",
                 "retentionInterval": "P1D"
