@@ -70,8 +70,8 @@
             "name": "CloudSOEPolicyBaselineDeployment",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'CloudSOEImageDeployment')]",
-                "[resourceId('Microsoft.Resources/deployments', 'CloudSOEAutomanageAccountDeployment')]"
+                "CloudSOEImageDeployment",
+                "CloudSOEAutomanageAccountDeployment"
             ],
             "properties": {
                 "mode": "Incremental",
