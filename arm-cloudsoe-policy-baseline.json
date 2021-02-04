@@ -69,9 +69,6 @@
             "identity": {
                 "type": "SystemAssigned"
             },
-            "dependsOn": [
-                "AutomanageAccount"
-            ],
             "properties": {
                 "scope": "[parameters('policyScopeId')]",
                 "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",            
@@ -99,9 +96,6 @@
             "identity": {
                 "type": "SystemAssigned"
             },
-            "dependsOn": [
-                "AutomanageAccount"
-            ],
             "properties": {
                 "scope": "[parameters('policyScopeId')]",
                 "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/16bed27e-daaa-46ab-a73d-77d8fc4a8847",
