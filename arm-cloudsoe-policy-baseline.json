@@ -42,6 +42,7 @@
                 "type": "SystemAssigned"
             },
             "properties": {
+                "scope": "[parameters('policyScopeId')]",
                 "displayName": "Enable Azure Monitor for VMs",
                 "metadata": {
                     "assignedBy": "[variables('assignedBy')]"

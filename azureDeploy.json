@@ -64,12 +64,21 @@
                     "uri": "[uri(deployment().properties.templateLink.uri, 'arm-cloudsoe-policy-baseline.json')]"
                 },
                 "parameters": {
-                    "policyScopeId": "[parameters('policyScopeId')]",
-                    "workspaceId": "[parameters('workspaceId')]",
-                    "windowsSOEImageArray": [
-                        "[reference('CloudSOEImageDeployment').outputs.ImageId.value]"
-                    ],
-                    "linuxSOEImageArray": []
+                    "policyScopeId": {
+                        "value": "[parameters('policyScopeId')]"
+                    },
+                    "workspaceId": {
+                        "value": "[parameters('workspaceId')]"
+                    },
+                    "windowsSOEImageArray": 
+                    {
+                        "value": [
+                            "[reference('CloudSOEImageDeployment').outputs.ImageId.value]"
+                        ]
+                    },
+                    "linuxSOEImageArray": {
+                        "value": [] 
+                    }
                 }
             }
         }
