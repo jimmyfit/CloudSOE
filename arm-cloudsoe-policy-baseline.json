@@ -136,7 +136,7 @@
                 }
             }
         },
-                {
+        {
             "type": "Microsoft.Authorization/policyAssignments",
             "name": "[guid('55834165-d4ea-44b6-97a6-02974364eec8', 'CloudSOEImageRG')]",
             "apiVersion": "2019-09-01",
@@ -181,6 +181,19 @@
                 "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
                 "principalId": "[reference(guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG'),'2019-09-01','Full').Identity.principalId]",
                 "scope": "[subscription().id]"
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('12794019-7a00-42cf-95c2-882eed337cc8')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/12794019-7a00-42cf-95c2-882eed337cc8"
             }
         }
     ]
