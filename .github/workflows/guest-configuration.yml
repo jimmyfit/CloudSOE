@@ -11,7 +11,7 @@ on:
       
 
 jobs:
-  Compile MOF:
+  Compile-MOF:
     runs-on: windows
     steps:
       - uses: actions/checkout@v2
