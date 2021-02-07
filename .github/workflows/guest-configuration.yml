@@ -17,8 +17,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Compile MOFs
         run: |
-          Install-Module PSDscResources -Force
-          Install-Module -Name GuestConfiguration
+          Install-Module -Name PSDscResources -Force
+          Install-Module -Name GuestConfiguration -Force
           Set-Location "guest-configuration"          
           Get-ChildItem *.ps1 | % {
             & ('.\' + ($_.Name))
