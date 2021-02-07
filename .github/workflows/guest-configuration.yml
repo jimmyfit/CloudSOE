@@ -32,7 +32,7 @@ jobs:
           Get-ChildItem -Recurse *.mof | % {
             $GuestConfigurationFile = $_.FullName
             $GuestConfigurationName = $_.Directory.Name
-            New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile -Path Packages | Test-GuestConfigurationPackage
+            New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile -Path Packages
           }
             
       - name: Commit 
