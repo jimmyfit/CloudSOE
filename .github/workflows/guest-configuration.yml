@@ -4,21 +4,31 @@ on:
   # Triggers the workflow on push to the guest-configuration folder
   push:
     paths: 
-      - 'guest-configuration/**'
+      - 'guest-configuration/*'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
       
 
 jobs:
-  Compile-MOF:
+  Compile-Guest-Configuration:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run compile script
+      - name: Compile MOFs
         run: |
           Install-Module PSDscResources -Force
-          Get-ChildItem -Recurse *.ps1 | % {Set-Location $_.Directory ; & ('.\' + ($_.Name))}
+          Install-Module -Name GuestConfiguration
+          Set-Location "guest-configuration"          
+          Get-ChildItem *.ps1 | % {
+            & ('.\' + ($_.Name))
+          }
+          Get-ChildItem -Recurse *.mof | % {
+            $GuestConfigurationFile = $_.FullName
+            $GuestConfigurationName = (($_.Directory.Name) -split "_")[1]
+            New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile | Test-GuestConfigurationPackage
+          }
+            
       - name: Commit 
         run: |
           git config user.name github-actions
