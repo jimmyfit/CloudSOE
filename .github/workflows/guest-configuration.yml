@@ -19,14 +19,20 @@ jobs:
         run: |
           Install-Module -Name PSDscResources -Force
           Install-Module -Name GuestConfiguration -Force -AllowClobber
-          Set-Location "guest-configuration"          
-          Get-ChildItem *.ps1 | % {
-            & ('.\' + ($_.Name))
+          Set-Location "guest-configuration"
+          New-Item "MOF" -ItemType Directory -ErrorAction:SilentlyContinue
+          New-Item "Packages" -ItemType Directory -ErrorAction:SilentlyContinue
+          
+          $PSFiles = Get-ChildItem *.ps1
+          Set-Location "MOF"
+          $PSFiles | % {
+            & ($_.Fullname)
           }
+          Set-Location ..
           Get-ChildItem -Recurse *.mof | % {
             $GuestConfigurationFile = $_.FullName
             $GuestConfigurationName = (($_.Directory.Name) -split "_")[1]
-            New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile | Test-GuestConfigurationPackage
+            New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile -Path Packages | Test-GuestConfigurationPackage
           }
             
       - name: Commit 
