@@ -26,7 +26,7 @@ jobs:
           Get-ChildItem -Recurse *.mof | % {
             $GuestConfigurationFile = $_.FullName
             $GuestConfigurationName = (($_.Directory.Name) -split "_")[1]
-            #New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile | Test-GuestConfigurationPackage
+            New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile | Test-GuestConfigurationPackage
           }
             
       - name: Commit 
