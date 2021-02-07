@@ -1,6 +1,6 @@
 Install-Module 'PSDscResources'
 
-Configuration windows-logon-banner
+Configuration DSC_WindowsLogonBanner
 {
     param
     (
@@ -34,5 +34,5 @@ Configuration windows-logon-banner
     }
 }
 
-windows-logon-banner -BannerTitle "title" -BannerText "text"
+DSC_WindowsLogonBanner -BannerTitle "title" -BannerText "text"
 
