@@ -12,13 +12,13 @@ on:
 
 jobs:
   Compile-Guest-Configuration:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - name: Compile MOFs
         run: |
           Install-Module -Name PSDscResources -Force
-          Install-Module -Name GuestConfiguration -Force -AllowClobber
+          Install-Module -Name GuestConfiguration -Force -AllowClobber -RequiredVersion 3.0.0
           Set-Location "guest-configuration"
           New-Item "MOF" -ItemType Directory -ErrorAction:SilentlyContinue
           New-Item "Packages" -ItemType Directory -ErrorAction:SilentlyContinue
