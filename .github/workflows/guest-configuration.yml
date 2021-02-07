@@ -18,7 +18,7 @@ jobs:
       - name: Compile MOFs
         run: |
           Install-Module -Name PSDscResources -Force
-          Install-Module -Name GuestConfiguration -Force
+          Install-Module -Name GuestConfiguration -Confirm:$false
           Set-Location "guest-configuration"          
           Get-ChildItem *.ps1 | % {
             & ('.\' + ($_.Name))
