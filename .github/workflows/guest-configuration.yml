@@ -31,7 +31,7 @@ jobs:
           Set-Location ..
           Get-ChildItem -Recurse *.mof | % {
             $GuestConfigurationFile = $_.FullName
-            $GuestConfigurationName = (($_.Directory.Name) -split "_")[1]
+            $GuestConfigurationName = $_.Directory.Name
             New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile -Path Packages | Test-GuestConfigurationPackage
           }
             
