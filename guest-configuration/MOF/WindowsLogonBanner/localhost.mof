@@ -1,0 +1,55 @@
+/*
+@TargetNode='localhost'
+@GeneratedBy=runneradmin
+@GenerationDate=02/08/2021 01:25:55
+@GenerationHost=fv-az159-222
+*/
+
+instance of MSFT_RegistryResource as $MSFT_RegistryResource1ref
+{
+ValueName = "legalnoticecaption";
+ ValueType = "String";
+ ModuleVersion = "2.12.0.0";
+ ResourceID = "[Registry]Ensure Windows logon banner title is set correctly";
+ SourceInfo = "D:\\a\\CloudSOE\\CloudSOE\\guest-configuration\\WindowsLogonBanner.ps1::17::9::Registry";
+ Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
+ ModuleName = "PSDscResources";
+ ValueData = {
+    "title"
+};
+ Ensure = "Present";
+ ConfigurationName = "WindowsLogonBanner";
+};
+instance of MSFT_RegistryResource as $MSFT_RegistryResource2ref
+{
+ValueName = "legalnoticetext";
+ ValueType = "String";
+ ModuleVersion = "2.12.0.0";
+ ResourceID = "[Registry]Ensure Windows logon banner text is set correctly";
+ SourceInfo = "D:\\a\\CloudSOE\\CloudSOE\\guest-configuration\\WindowsLogonBanner.ps1::26::9::Registry";
+ Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
+ ModuleName = "PSDscResources";
+ ValueData = {
+    "text"
+};
+ Ensure = "Present";
+ ConfigurationName = "WindowsLogonBanner";
+};
+instance of OMI_ConfigurationDocument
+
+                    {
+ Version="2.0.0";
+
+                        MinimumCompatibleVersion = "1.0.0";
+
+                        CompatibleVersionAdditionalProperties= {"Omi_BaseResource:ConfigurationName"};
+
+                        Author="runneradmin";
+
+                        GenerationDate="02/08/2021 01:25:55";
+
+                        GenerationHost="fv-az159-222";
+
+                        Name="WindowsLogonBanner";
+
+                    };
