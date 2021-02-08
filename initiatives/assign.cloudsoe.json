@@ -1,0 +1,68 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "policyScopeId": {
+            "type": "string",
+            "metadata": {
+                "description": "The scope at which policies, relating to the cloud SOE, will be assigned."
+            }
+        },
+        "workspaceId": {
+            "type": "string",
+            "metadata": {
+                "description": "The Log Analytics Workspace where any data sources will be directed."
+            }
+        },
+        "windowsSOEImageArray": {
+            "type": "array",
+            "metadata": {
+                "description": "An array of all Windows SOE image IDs."
+            },
+            "defaultValue": []
+        },
+        "linuxSOEImageArray": {
+            "type": "array",
+            "metadata": {
+                "description": "An array of all Linux SOE image IDs."
+            },
+            "defaultValue": []
+        },
+        "assignedBy": {
+            "type": "string",
+            "metadata": {
+                "description": "Identifier for who is creating the assignment."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid('55f3eceb-5573-4f18-9695-226972c6d74a',parameters('policyScopeId'))]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "displayName": "Enable Azure Monitor for VMs",
+                "metadata": {
+                    "assignedBy": "[parameters('assignedBy')]"
+                },
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/55f3eceb-5573-4f18-9695-226972c6d74a",
+                "parameters": {
+                    "logAnalytics_1": {
+                        "value": "[parameters('workspaceId')]"
+                    },
+                    "listofImageIdToInclude_windows": {
+                        "value": "[parameters('windowsSOEImageArray')]"
+                    },
+                    "listofImageIdToInclude_linux": {
+                        "value": "[parameters('linuxSOEImageArray')]"
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -30,38 +30,53 @@
         }
     },
     "variables": {
-        "assignedBy": "CloudSOE Policy Baseline"
-    },
-    "resources": [
-        {
-            "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('55f3eceb-5573-4f18-9695-226972c6d74a',parameters('policyScopeId'))]",
-            "apiVersion": "2019-09-01",
-            "location": "eastus",
-            "identity": {
-                "type": "SystemAssigned"
+        "assignedBy": "CloudSOE Policy Baseline",
+        "commonAssignmentParameters": {
+            "assignedBy": {
+                "value":"[variables('assignedBy')]"
             },
-            "properties": {
-                "scope": "[parameters('policyScopeId')]",
-                "displayName": "Enable Azure Monitor for VMs",
-                "metadata": {
-                    "assignedBy": "[variables('assignedBy')]"
-                },
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/55f3eceb-5573-4f18-9695-226972c6d74a",
+            "policyScopeId": {
+                "value": "[parameters('policyScopeId')]"
+            }
+        },
+        "policyAssignments": [
+            {
+                "relativeUri": "initiatives/enable-azure-monitor-for-VMs/assign.cloudsoe.json",
                 "parameters": {
-                    "logAnalytics_1": {
+                    "workspaceId": {
                         "value": "[parameters('workspaceId')]"
                     },
-                    "listofImageIdToInclude_windows": {
+                    "windowsSOEImageArray": {
                         "value": "[parameters('windowsSOEImageArray')]"
                     },
-                    "listofImageIdToInclude_linux": {
+                    "linuxSOEImageArray": {
                         "value": "[parameters('linuxSOEImageArray')]"
                     }
                 }
             }
+        ]
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-05-01",
+            "name": "[concat('PolicyAssignment-',copyIndex())]",
+            "location": "eastus",
+            "copy": {
+                "name": "Policy assignment deployments",
+                "count": "[length(variables('policyAssignments'))]",
+                "mode": "parallel"
+            },
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[uri(deployment().properties.templateLink.uri, variables('policyAssignments')[copyIndex()])]",
+                    "parameters": "[union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters)]"
+                }
+            }
         },
-                {
+        {
             "type": "Microsoft.Authorization/policyAssignments",
             "name": "[guid('16bed27e-daaa-46ab-a73d-77d8fc4a8847','2', 'CloudSOEImageRG')]",
             "apiVersion": "2019-09-01",
