@@ -34,7 +34,7 @@ jobs:
           $MOFFiles | % {
             $GuestConfigurationFile = $_.FullName
             $GuestConfigurationName = $_.Directory.Name
-            New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile -Path Packages
+            New-GuestConfigurationPackage -Name $GuestConfigurationName -Configuration $GuestConfigurationFile -Path Packages | Test-GuestConfigurationPackage
           }
             
       - name: Commit 
