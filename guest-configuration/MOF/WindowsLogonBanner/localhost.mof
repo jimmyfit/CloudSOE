@@ -1,38 +1,38 @@
 /*
 @TargetNode='localhost'
 @GeneratedBy=runneradmin
-@GenerationDate=02/08/2021 01:25:55
-@GenerationHost=fv-az159-222
+@GenerationDate=02/08/2021 11:22:16
+@GenerationHost=fv-az153-328
 */
 
 instance of MSFT_RegistryResource as $MSFT_RegistryResource1ref
 {
-ValueName = "legalnoticecaption";
- ValueType = "String";
- ModuleVersion = "2.12.0.0";
- ResourceID = "[Registry]Ensure Windows logon banner title is set correctly";
+ValueType = "String";
  SourceInfo = "D:\\a\\CloudSOE\\CloudSOE\\guest-configuration\\WindowsLogonBanner.ps1::17::9::Registry";
- Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
+ Ensure = "Present";
  ModuleName = "PSDscResources";
+ ResourceID = "[Registry]Ensure Windows logon banner title is set correctly";
  ValueData = {
     "title"
 };
- Ensure = "Present";
+ ModuleVersion = "2.12.0.0";
+ ValueName = "legalnoticecaption";
+ Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
  ConfigurationName = "WindowsLogonBanner";
 };
 instance of MSFT_RegistryResource as $MSFT_RegistryResource2ref
 {
-ValueName = "legalnoticetext";
- ValueType = "String";
- ModuleVersion = "2.12.0.0";
- ResourceID = "[Registry]Ensure Windows logon banner text is set correctly";
+ValueType = "String";
  SourceInfo = "D:\\a\\CloudSOE\\CloudSOE\\guest-configuration\\WindowsLogonBanner.ps1::26::9::Registry";
- Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
+ Ensure = "Present";
  ModuleName = "PSDscResources";
+ ResourceID = "[Registry]Ensure Windows logon banner text is set correctly";
  ValueData = {
     "text"
 };
- Ensure = "Present";
+ ModuleVersion = "2.12.0.0";
+ ValueName = "legalnoticetext";
+ Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
  ConfigurationName = "WindowsLogonBanner";
 };
 instance of OMI_ConfigurationDocument
@@ -46,9 +46,9 @@ instance of OMI_ConfigurationDocument
 
                         Author="runneradmin";
 
-                        GenerationDate="02/08/2021 01:25:55";
+                        GenerationDate="02/08/2021 11:22:16";
 
-                        GenerationHost="fv-az159-222";
+                        GenerationHost="fv-az153-328";
 
                         Name="WindowsLogonBanner";
 

@@ -15,7 +15,7 @@
       <S N="Copyright">(c) 2016 Microsoft Corporation. All rights reserved.</S>
       <DT N="PublishedDate">2019-06-26T21:35:44+00:00</DT>
       <Obj N="InstalledDate" RefId="1">
-        <DT>2021-02-08T01:25:40.5983135+00:00</DT>
+        <DT>2021-02-08T11:22:01.6321876+00:00</DT>
         <MS>
           <Obj N="DisplayHint" RefId="2">
             <TN RefId="1">
@@ -66,6 +66,10 @@
             <Ref N="Value" RefId="5" />
           </En>
           <En>
+            <S N="Key">Cmdlet</S>
+            <Ref N="Value" RefId="5" />
+          </En>
+          <En>
             <S N="Key">DscResource</S>
             <Obj N="Value" RefId="6">
               <TNRef RefId="2" />
@@ -95,10 +99,6 @@
             <Ref N="Value" RefId="5" />
           </En>
           <En>
-            <S N="Key">Cmdlet</S>
-            <Ref N="Value" RefId="5" />
-          </En>
-          <En>
             <S N="Key">Command</S>
             <Ref N="Value" RefId="5" />
           </En>
@@ -125,15 +125,15 @@
           <S N="releaseNotes">* Ports style fixes that were recently made in xPSDesiredStateConfiguration_x000D__x000A_  on test related files._x000D__x000A_* Ports most of the style upgrades from xPSDesiredStateConfiguration that have_x000D__x000A_  been made in files in the DscResources folder._x000D__x000A_* Ports fixes for the following issues:_x000D__x000A_  [Issue 505](https://github.com/PowerShell/xPSDesiredStateConfiguration/issues/505)_x000D__x000A_  [Issue 590](https://github.com/PowerShell/xPSDesiredStateConfiguration/issues/590)_x000D__x000A_  Changes to test helper Enter-DscResourceTestEnvironment so that it only_x000D__x000A_  updates DSCResource.Tests when it is longer than 120 minutes since_x000D__x000A_  it was last pulled. This is to improve performance of test execution_x000D__x000A_  and reduce the likelihood of connectivity issues caused by inability to_x000D__x000A_  pull DSCResource.Tests._x000D__x000A_* Fixes issue where MsiPackage Integration tests fail if the test HttpListener_x000D__x000A_  fails to start. Moves the test HttpListener objects to dynamically assigned,_x000D__x000A_  higher numbered ports to avoid conflicts with other services, and also checks_x000D__x000A_  to ensure that the ports are available before using them. Adds checks to_x000D__x000A_  ensure that no outstanding HTTP server jobs are running before attempting to_x000D__x000A_  setup a new one. Also adds additional instrumentation to make it easier to_x000D__x000A_  troubleshoot issues with the test HttpListener objects in the future._x000D__x000A_  Specifically fixes_x000D__x000A_  [Issue 142](https://github.com/PowerShell/PSDscResources/issues/142)_x000D__x000A_* Improved speed of Test-IsNanoServer function_x000D__x000A_* Remove the Byte Order Mark (BOM) from all affected files_x000D__x000A_* Opt-in to "Validate Module Files" and "Validate Script Files" common meta-tests_x000D__x000A_* Opt-in to "Common Tests - Relative Path Length" common meta-test_x000D__x000A_* Fix README markdownlint validation failures_x000D__x000A_* Move change log from README.md to CHANGELOG.md</S>
           <S N="isLatestVersion">True</S>
           <S N="isAbsoluteLatestVersion">True</S>
-          <S N="versionDownloadCount">553256</S>
-          <S N="downloadCount">14134819</S>
+          <S N="versionDownloadCount">553402</S>
+          <S N="downloadCount">14137037</S>
           <S N="packageSize">331184</S>
           <S N="published">6/26/2019 9:35:44 PM +00:00</S>
           <S N="created">6/26/2019 9:35:44 PM +00:00</S>
-          <S N="lastUpdated">2/8/2021 1:23:47 AM +00:00</S>
+          <S N="lastUpdated">2/8/2021 11:18:51 AM +00:00</S>
           <S N="tags">DesiredStateConfiguration DSC DSCResourceKit DSCResource AzureAutomationNotSupported PSModule PSDscResource_Archive PSDscResource_Environment PSDscResource_Group PSDscResource_GroupSet PSDscResource_MsiPackage PSDscResource_Registry PSDscResource_Script PSDscResource_Service PSDscResource_ServiceSet PSDscResource_User PSDscResource_WindowsFeature PSDscResource_WindowsFeatureSet PSDscResource_WindowsOptionalFeature PSDscResource_WindowsOptionalFeatureSet PSDscResource_WindowsPackageCab PSDscResource_WindowsProcess PSDscResource_ProcessSet PSIncludes_DscResource</S>
           <S N="developmentDependency">False</S>
-          <S N="updated">2021-02-08T01:23:47Z</S>
+          <S N="updated">2021-02-08T11:18:51Z</S>
           <S N="NormalizedVersion">2.12.0</S>
           <S N="Authors">Microsoft Corporation</S>
           <S N="IsPrerelease">false</S>
