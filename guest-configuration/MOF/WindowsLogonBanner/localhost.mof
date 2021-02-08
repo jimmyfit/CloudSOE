@@ -1,38 +1,38 @@
 /*
 @TargetNode='localhost'
 @GeneratedBy=runneradmin
-@GenerationDate=02/08/2021 01:16:17
-@GenerationHost=fv-az153-328
+@GenerationDate=02/08/2021 01:25:55
+@GenerationHost=fv-az159-222
 */
 
 instance of MSFT_RegistryResource as $MSFT_RegistryResource1ref
 {
-SourceInfo = "D:\\a\\CloudSOE\\CloudSOE\\guest-configuration\\WindowsLogonBanner.ps1::17::9::Registry";
+ValueName = "legalnoticecaption";
  ValueType = "String";
  ModuleVersion = "2.12.0.0";
- Ensure = "Present";
- ValueName = "legalnoticecaption";
+ ResourceID = "[Registry]Ensure Windows logon banner title is set correctly";
+ SourceInfo = "D:\\a\\CloudSOE\\CloudSOE\\guest-configuration\\WindowsLogonBanner.ps1::17::9::Registry";
+ Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
+ ModuleName = "PSDscResources";
  ValueData = {
     "title"
 };
- Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
- ModuleName = "PSDscResources";
- ResourceID = "[Registry]Ensure Windows logon banner title is set correctly";
+ Ensure = "Present";
  ConfigurationName = "WindowsLogonBanner";
 };
 instance of MSFT_RegistryResource as $MSFT_RegistryResource2ref
 {
-SourceInfo = "D:\\a\\CloudSOE\\CloudSOE\\guest-configuration\\WindowsLogonBanner.ps1::26::9::Registry";
+ValueName = "legalnoticetext";
  ValueType = "String";
  ModuleVersion = "2.12.0.0";
- Ensure = "Present";
- ValueName = "legalnoticetext";
+ ResourceID = "[Registry]Ensure Windows logon banner text is set correctly";
+ SourceInfo = "D:\\a\\CloudSOE\\CloudSOE\\guest-configuration\\WindowsLogonBanner.ps1::26::9::Registry";
+ Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
+ ModuleName = "PSDscResources";
  ValueData = {
     "text"
 };
- Key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System";
- ModuleName = "PSDscResources";
- ResourceID = "[Registry]Ensure Windows logon banner text is set correctly";
+ Ensure = "Present";
  ConfigurationName = "WindowsLogonBanner";
 };
 instance of OMI_ConfigurationDocument
@@ -46,9 +46,9 @@ instance of OMI_ConfigurationDocument
 
                         Author="runneradmin";
 
-                        GenerationDate="02/08/2021 01:16:17";
+                        GenerationDate="02/08/2021 01:25:55";
 
-                        GenerationHost="fv-az153-328";
+                        GenerationHost="fv-az159-222";
 
                         Name="WindowsLogonBanner";
 
