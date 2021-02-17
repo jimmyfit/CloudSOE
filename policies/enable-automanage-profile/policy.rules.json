@@ -1,0 +1,92 @@
+{
+    "if": {
+      "allOf": [
+        {
+          "field": "location",
+          "in": [
+            "eastus",
+            "westus2",
+            "westcentralus",
+            "westeurope",
+            "canadacentral"
+          ]
+        },
+        {
+          "field": "type",
+          "equals": "Microsoft.Compute/virtualMachines"
+        },
+        {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "equals": "[parameters('tagValue')]"
+        },
+        {
+          "field": "Microsoft.Compute/ImageId",
+          "contains": "/images/WinServer2019-SOE"
+        }
+      ]
+    },
+    "then": {
+      "effect": "deployIfNotExists",
+      "details": {
+        "roleDefinitionIds": [
+          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ],
+        "type": "Microsoft.Automanage/configurationProfileAssignments",
+        "name": "default",
+        "existenceCondition": {
+          "allOf": [
+            {
+              "field": "Microsoft.Automanage/configurationProfileAssignments/configurationProfile",
+              "equals": "[parameters('configurationProfileAssignment')]"
+            },
+            {
+              "field": "Microsoft.Automanage/configurationProfileAssignments/accountId",
+              "equals": "[parameters('automanageAccount')]"
+            }
+          ]
+        },
+        "deployment": {
+          "properties": {
+            "mode": "incremental",
+            "parameters": {
+              "machineName": {
+                "value": "[field('Name')]"
+              },
+              "automanageAccount": {
+                "value": "[parameters('automanageAccount')]"
+              },
+              "configurationProfileAssignment": {
+                "value": "[parameters('configurationProfileAssignment')]"
+              }
+            },
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "machineName": {
+                  "type": "String"
+                },
+                "automanageAccount": {
+                  "type": "string"
+                },
+                "configurationProfileAssignment": {
+                  "type": "string"
+                }
+              },
+              "resources": [
+                {
+                  "type": "Microsoft.Compute/virtualMachines/providers/configurationProfileAssignments",
+                  "apiVersion": "2020-06-30-preview",
+                  "name": "[concat(parameters('machineName'), '/Microsoft.Automanage/', 'default')]",
+                  "properties": {
+                    "configurationProfile": "[parameters('configurationProfileAssignment')]",
+                    "accountId": "[parameters('automanageAccount')]"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }

@@ -1,0 +1,70 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "policyDefinitionId": {
+            "type": "string",
+            "metadata": {
+                "description": "The policy that this assignment is for."
+            }
+        },
+        "policyScopeId": {
+            "type": "string",
+            "metadata": {
+                "description": "The scope at which policies, relating to the cloud SOE, will be assigned."
+            }
+        },
+        "assignedBy": {
+            "type": "string",
+            "metadata": {
+                "description": "Identifier for who is creating the assignment."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid(parameters('policyDefinitionId'), '2')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "policyDefinitionId": "[parameters('policyDefinitionId')]",            
+                "displayName": "Azure virtual machine best practices – Production",
+                "metadata": {
+                    "assignedBy": "[parameters('assignedBy')]"
+                },
+                "parameters":  {
+                    "automanageAccount": {
+                        "value": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]"
+                    },
+                    "configurationProfileAssignment": {
+                        "value": "Azure virtual machine best practices – Production"
+                    },
+                    "TagName": {
+                        "value": "Production"
+                    },
+                    "TagValue": {
+                        "value": "True"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-07-01",
+            "name": "[guid(parameters('policyDefinitionId'), '2')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyAssignments', guid(parameters('policyDefinitionId'), '2'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+                "principalId": "[reference(guid(parameters('policyDefinitionId'), '2'),'2019-09-01','Full').Identity.principalId]",
+                "scope": "[parameters('policyScopeId')]"
+            }
+        }
+    ]
+}
