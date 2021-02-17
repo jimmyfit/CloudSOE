@@ -1,0 +1,50 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "policyDefinitionId": {
+            "type": "string",
+            "metadata": {
+                "description": "The policy that this assignment is for."
+            }
+        },
+        "policyScopeId": {
+            "type": "string",
+            "metadata": {
+                "description": "The scope at which policies, relating to the cloud SOE, will be assigned."
+            }
+        },
+        "assignedBy": {
+            "type": "string",
+            "metadata": {
+                "description": "Identifier for who is creating the assignment."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[guid(parameters('policyDefinitionId'), '2')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "policyDefinitionId": "[parameters('policyDefinitionId')]",
+                "metadata": {
+                    "assignedBy": "[parameters('assignedBy')]"
+                },
+                "parameters":  {
+                    "tagName": {
+                        "value": "SOE"
+                    },
+                    "tagValue": {
+                        "value": "True"
+                    }
+                }
+            }
+        }
+    ]
+}

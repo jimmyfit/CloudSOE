@@ -41,8 +41,12 @@
         },
         "policyDefinitions":[
             {
-                "relativeUri": "initiatives/enable-azure-monitor-for-VMs/assign.cloudsoe.json",
+                "relativeUri": "policies/enable-automanage-profile/policy.template.json",
                 "policyName": "enable-automanage-profile-based-on-tag"
+            },
+            {
+                "relativeUri": "policies/tag-vm-resources/policy.template.json",
+                "policyName": "tag-vm-resources"
             }
         ],
         "policyAssignments": [
@@ -80,6 +84,16 @@
                         "value": ""
                     }
                 }
+            },
+            {
+                "relativeUri": "policies/tag-vm-resources/assign.soetag.json",
+                "policyName": "tag-vm-resources",
+                "parameters": {}
+            },
+            {
+                "relativeUri": "policies/tag-vm-resources/assign.prodtag.json",
+                "policyName": "tag-vm-resources",
+                "parameters": {}
             }
         ]
     },
@@ -125,7 +139,7 @@
                 "templateLink": {
                     "contentVersion": "1.0.0.0",
                     "uri": "[uri(deployment().properties.templateLink.uri, variables('policyAssignments')[copyIndex()]).relativeUri]",
-                    "parameters": "[if(contains(variables('policyAssignments')[copyIndex()],'policyName'),union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters,createobject('policyDefinitionId',reference(concat('PolicyDefinitions-',variables('policyAssignments')[copyIndex()].policyName)).outputs.policyDefinitionId)),union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters))]"
+                    "parameters": "[if(contains(variables('policyAssignments')[copyIndex()],'policyName'),union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters,createobject('policyDefinitionId',reference(concat('PolicyDefinitions-',variables('policyAssignments')[copyIndex()].policyName)).outputs.policyDefinitionId)),union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters))]" //This block selectively merges three objects to form one parameters set for the new deployment. First is the commonAssignmentParameters variable which contains the parameters that need to be attached to all policy assignments. Second is the policyAssignment-specific under variables('policyAssignments')[copyIndex()].parameter. Thirdly is the optional policyDefinitionId, which is only necessary for custom policies (defined above) which do not have static policyDefinitionIds. This is derived from the combination of the output of the policyDefinition deployment, and the policyName optionally specified under variables('policyAssignments')[copyIndex()].
                 }
             }
         },
@@ -143,27 +157,6 @@
                 "parameters":  {
                     "tagName": {
                         "value": "SOE"
-                    },
-                    "tagValue": {
-                        "value": "True"
-                    }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('55834165-d4ea-44b6-97a6-02974364eec8', 'CloudSOEImageRG')]",
-            "apiVersion": "2019-09-01",
-            "location": "eastus",
-            "identity": {
-                "type": "SystemAssigned"
-            },
-            "properties": {
-                "scope": "[parameters('policyScopeId')]",
-                "policyDefinitionId": "/subscriptions/888352be-306d-489d-8e87-dacd675cdde7/providers/Microsoft.Authorization/policyDefinitions/55834165-d4ea-44b6-97a6-02974364eec8",
-                "parameters":  {
-                    "tagName": {
-                        "value": "Production"
                     },
                     "tagValue": {
                         "value": "True"
