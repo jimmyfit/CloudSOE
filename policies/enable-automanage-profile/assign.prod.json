@@ -70,7 +70,7 @@
         },
         {
             "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2018-07-01",
+            "apiVersion": "2018-09-01-preview",
             "name": "[guid(parameters('policyDefinitionId'), '2')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]"
@@ -78,7 +78,8 @@
             "properties": {
                 "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
                 "principalId": "[reference(parameters('assignmentName'),'2019-09-01','Full').Identity.principalId]",
-                "scope": "[parameters('policyScopeId')]"
+                "scope": "[parameters('policyScopeId')]",
+                "principalType": "ServicePrincipal"
             }
         }
     ]
