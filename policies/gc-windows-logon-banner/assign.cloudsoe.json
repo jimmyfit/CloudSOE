@@ -8,6 +8,12 @@
                 "description": "The policy that this assignment is for."
             }
         },
+        "assignmentName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the policyAssignment resource."
+            }
+        },
         "policyScopeId": {
             "type": "string",
             "metadata": {
@@ -24,7 +30,7 @@
     "resources": [
         {
             "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid(parameters('policyDefinitionId'))]",
+            "name": "[parameters('assignmentName')]",
             "apiVersion": "2019-09-01",
             "location": "eastus",
             "identity": {
