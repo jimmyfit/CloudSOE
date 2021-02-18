@@ -80,7 +80,7 @@
             "apiVersion": "2020-02-14",
             "location": "eastus",
             "dependsOn": [
-                "[resourceId('Microsoft.Authorization/roleAssignments', variables('roleAssignmentName'))]",
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities','AIB'), 'b24988ac-6180-42a0-ab88-20f7382dd24c', resourceGroup().id))]",
                 "[resourceId('Microsoft.Compute/galleries/images', 'CloudSOESIG', 'WinServer2019-SOE')]"
             ],
             "identity": {
