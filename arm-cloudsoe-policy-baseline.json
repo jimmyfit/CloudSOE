@@ -71,7 +71,8 @@
             },
             {
                 "relativeUri": "initiatives/enable-guest-configuration/assign.cloudsoe.json",
-                "assignmentName": "enable-guest-configuration"
+                "assignmentName": "enable-guest-configuration",
+                "parameters": {}
             },
             {
                 "relativeUri": "policies/enable-automanage-profile/assign.nonprod.json",
@@ -109,11 +110,7 @@
                 "relativeUri": "policies/gc-windows-logon-banner/assign.cloudsoe.json",
                 "assignmentName": "gc-windows-logon-banner",
                 "customPolicyName": "gc-windows-logon-banner",
-                "parameters": {
-                    "IncludeArcMachines":{
-                        "value": "True"
-                    }
-                }
+                "parameters": {}
             }
         ]
     },
