@@ -71,7 +71,7 @@
     "outputs":{
         "policyDefinitionId": {
             "type": "string",
-            "value": "[reference(parameters('policyName'),'2019-09-01','Full').Id]"
+            "value": "[resourceId('Microsoft.Authorization/policyDefinitions',parameters('policyName'))]"
         }
     }
 }
