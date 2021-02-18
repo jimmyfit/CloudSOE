@@ -121,7 +121,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "name": "[concat('PolicyDefinitions-',variables('policyDefinitions')[copyIndex()]).customPolicyName]",
+            "name": "[concat('PolicyDefinitions-',variables('policyDefinitions')[copyIndex()].customPolicyName)]",
             "location": "eastus",
             "copy": {
                 "name": "Policy definition deployments",
