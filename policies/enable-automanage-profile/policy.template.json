@@ -4,6 +4,9 @@
     "parameters": {
         "policyName": {
             "type": "string"
+        },
+        "tagName": {
+            "type": "string"
         }
     },
     "resources": [
