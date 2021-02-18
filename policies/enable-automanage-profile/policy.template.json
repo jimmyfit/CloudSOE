@@ -71,7 +71,7 @@
                                     "mode": "incremental",
                                     "parameters": {
                                         "machineName": {
-                                            "value": "[field('Name')]"
+                                            "value": "[[field('Name')]"
                                         },
                                         "automanageAccount": {
                                             "value": "[[parameters('automanageAccount')]"
