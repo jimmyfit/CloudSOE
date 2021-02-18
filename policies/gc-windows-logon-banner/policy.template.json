@@ -4,10 +4,6 @@
     "parameters": {
         "policyName": {
             "type": "string"
-        },
-        "IncludeArcMachines": {
-            "type": "String",
-            "defaultValue": "False"
         }
     },
     "resources": [
@@ -188,7 +184,7 @@
                             {
                                 "allOf": [
                                     {
-                                        "value": "[parameters('IncludeArcMachines')]",
+                                        "value": "[[parameters('IncludeArcMachines')]",
                                         "equals": "true"
                                     },
                                     {
