@@ -4,9 +4,6 @@
     "parameters": {
         "policyName": {
             "type": "string"
-        },
-        "tagName": {
-            "type": "string"
         }
     },
     "resources": [
@@ -40,8 +37,8 @@
                                 "equals": "Microsoft.Compute/virtualMachines"
                             },
                             {
-                                "field": "[concat('tags[', parameters('tagName'), ']')]",
-                                "equals": "[parameters('tagValue')]"
+                                "field": "[[concat('tags[', parameters('tagName'), ']')]",
+                                "equals": "[[parameters('tagValue')]"
                             },
                             {
                                 "field": "Microsoft.Compute/ImageId",
@@ -61,11 +58,11 @@
                                 "allOf": [
                                     {
                                         "field": "Microsoft.Automanage/configurationProfileAssignments/configurationProfile",
-                                        "equals": "[parameters('configurationProfileAssignment')]"
+                                        "equals": "[[parameters('configurationProfileAssignment')]"
                                     },
                                     {
                                         "field": "Microsoft.Automanage/configurationProfileAssignments/accountId",
-                                        "equals": "[parameters('automanageAccount')]"
+                                        "equals": "[[parameters('automanageAccount')]"
                                     }
                                 ]
                             },
@@ -77,10 +74,10 @@
                                             "value": "[field('Name')]"
                                         },
                                         "automanageAccount": {
-                                            "value": "[parameters('automanageAccount')]"
+                                            "value": "[[parameters('automanageAccount')]"
                                         },
                                         "configurationProfileAssignment": {
-                                            "value": "[parameters('configurationProfileAssignment')]"
+                                            "value": "[[parameters('configurationProfileAssignment')]"
                                         }
                                     },
                                     "template": {
@@ -101,10 +98,10 @@
                                             {
                                                 "type": "Microsoft.Compute/virtualMachines/providers/configurationProfileAssignments",
                                                 "apiVersion": "2020-06-30-preview",
-                                                "name": "[concat(parameters('machineName'), '/Microsoft.Automanage/', 'default')]",
+                                                "name": "[[concat(parameters('machineName'), '/Microsoft.Automanage/', 'default')]",
                                                 "properties": {
-                                                    "configurationProfile": "[parameters('configurationProfileAssignment')]",
-                                                    "accountId": "[parameters('automanageAccount')]"
+                                                    "configurationProfile": "[[parameters('configurationProfileAssignment')]",
+                                                    "accountId": "[[parameters('automanageAccount')]"
                                                 }
                                             }
                                         ]
