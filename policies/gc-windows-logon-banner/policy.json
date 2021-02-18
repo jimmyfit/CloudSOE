@@ -225,7 +225,5 @@
                 }
             }
         }
-    },
-    "id": "/providers/Microsoft.Authorization/policyDefinitions/f65fc1a5-fd37-4133-9fe6-8fde2f4c98e7",
-    "name": "f65fc1a5-fd37-4133-9fe6-8fde2f4c98e7"
+    }
 }

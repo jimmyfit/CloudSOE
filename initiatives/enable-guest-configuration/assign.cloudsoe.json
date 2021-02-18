@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "policyScopeId": {
+            "type": "string",
+            "metadata": {
+                "description": "The scope at which policies, relating to the cloud SOE, will be assigned."
+            }
+        },
+        "assignmentName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the policyAssignment resource."
+            }
+        },
+        "assignedBy": {
+            "type": "string",
+            "metadata": {
+                "description": "Identifier for who is creating the assignment."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[parameters('assignmentName')]",
+            "apiVersion": "2019-09-01",
+            "location": "eastus",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "scope": "[parameters('policyScopeId')]",
+                "displayName": "Enable Guest Configuration",
+                "metadata": {
+                    "assignedBy": "[parameters('assignedBy')]"
+                },
+                "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/12794019-7a00-42cf-95c2-882eed337cc8"
+            }
+        }
+    ]
+}

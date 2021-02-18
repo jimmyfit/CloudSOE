@@ -154,7 +154,7 @@
     "outputs":{
         "policyDefinitionId": {
             "type": "string",
-            "value": "[reference('enable-automanage-profile-based-on-tag','Full').id]"
+            "value": "[reference(parameters('policyName'),'Full').id]"
         }
     }
 }

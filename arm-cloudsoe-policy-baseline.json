@@ -42,16 +42,21 @@
         "policyDefinitions":[
             {
                 "relativeUri": "policies/enable-automanage-profile/policy.template.json",
-                "policyName": "enable-automanage-profile-based-on-tag"
+                "customPolicyName": "enable-automanage-profile-based-on-tag"
             },
             {
                 "relativeUri": "policies/tag-vm-resources/policy.template.json",
-                "policyName": "tag-vm-resources"
+                "customPolicyName": "tag-vm-resources"
+            },
+            {
+                "relativeUri": "policies/gc-windows-logon-banner/policy.template.json",
+                "customPolicyName": "gc-windows-logon-banner"
             }
         ],
         "policyAssignments": [
             {
-                "relativeUri": "initiatives/enable-azure-monitor-for-VMs/assign.cloudsoe.json",
+                "relativeUri": "initiatives/enable-azure-monitor-for-vms/assign.cloudsoe.json",
+                "assignmentName": "enable-azure-monitor-for-vms",
                 "parameters": {
                     "workspaceId": {
                         "value": "[parameters('workspaceId')]"
@@ -65,8 +70,13 @@
                 }
             },
             {
+                "relativeUri": "initiatives/enable-guest-configuration/assign.cloudsoe.json",
+                "assignmentName": "enable-guest-configuration"
+            },
+            {
                 "relativeUri": "policies/enable-automanage-profile/assign.nonprod.json",
-                "policyName": "enable-automanage-profile-based-on-tag",
+                "assignmentName": "enable-automanage-profile-nonprod",
+                "customPolicyName": "enable-automanage-profile-based-on-tag",
                 "parameters": {
                     "automanageAccount": {
                         "value": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]"
@@ -75,25 +85,35 @@
             },
             {
                 "relativeUri": "policies/enable-automanage-profile/assign.prod.json",
-                "policyName": "enable-automanage-profile-based-on-tag",
+                "assignmentName": "enable-automanage-profile-prod",
+                "customPolicyName": "enable-automanage-profile-based-on-tag",
                 "parameters": {
                     "automanageAccount": {
                         "value": "[concat(subscription().id,'/resourcegroups/cloudsoeimagerg/providers/microsoft.automanage/accounts/cloudsoeautomanage')]"
-                    },
-                    "policyDefinitionId": {
-                        "value": ""
                     }
                 }
             },
             {
                 "relativeUri": "policies/tag-vm-resources/assign.soetag.json",
-                "policyName": "tag-vm-resources",
+                "assignmentName": "tag-vm-resources-soe",
+                "customPolicyName": "tag-vm-resources",
                 "parameters": {}
             },
             {
                 "relativeUri": "policies/tag-vm-resources/assign.prodtag.json",
-                "policyName": "tag-vm-resources",
+                "assignmentName": "tag-vm-resources-prod",
+                "customPolicyName": "tag-vm-resources",
                 "parameters": {}
+            },
+            {
+                "relativeUri": "policies/gc-windows-logon-banner/assign.cloudsoe.json",
+                "assignmentName": "gc-windows-logon-banner",
+                "customPolicyName": "gc-windows-logon-banner",
+                "parameters": {
+                    "IncludeArcMachines":{
+                        "value": "True"
+                    }
+                }
             }
         ]
     },
@@ -101,7 +121,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "name": "[concat('PolicyDefinitions-',variables('policyDefinitions')[copyIndex()]).policyName]",
+            "name": "[concat('PolicyDefinitions-',variables('policyDefinitions')[copyIndex()]).customPolicyName]",
             "location": "eastus",
             "copy": {
                 "name": "Policy definition deployments",
@@ -116,7 +136,7 @@
                 },
                 "parameters": {
                     "policyName": {
-                        "value": "[variables('policyDefinitions')[copyIndex()].policyName]"
+                        "value": "[variables('policyDefinitions')[copyIndex()].customPolicyName]"
                     }
                 }
             }
@@ -139,21 +159,8 @@
                 "templateLink": {
                     "contentVersion": "1.0.0.0",
                     "uri": "[uri(deployment().properties.templateLink.uri, variables('policyAssignments')[copyIndex()]).relativeUri]",
-                    "parameters": "[if(contains(variables('policyAssignments')[copyIndex()],'policyName'),union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters,createobject('policyDefinitionId',reference(concat('PolicyDefinitions-',variables('policyAssignments')[copyIndex()].policyName)).outputs.policyDefinitionId)),union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters))]" //This block selectively merges three objects to form one parameters set for the new deployment. First is the commonAssignmentParameters variable which contains the parameters that need to be attached to all policy assignments. Second is the policyAssignment-specific under variables('policyAssignments')[copyIndex()].parameter. Thirdly is the optional policyDefinitionId, which is only necessary for custom policies (defined above) which do not have static policyDefinitionIds. This is derived from the combination of the output of the policyDefinition deployment, and the policyName optionally specified under variables('policyAssignments')[copyIndex()].
+                    "parameters": "[if(contains(variables('policyAssignments')[copyIndex()],'customPolicyName'),union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters,createObject('assignmentName',variables('policyAssignments')[copyIndex()].assignmentName),createobject('policyDefinitionId',reference(concat('PolicyDefinitions-',variables('policyAssignments')[copyIndex()].customPolicyName)).outputs.policyDefinitionId)),union(variables('commonAssignmentParameters'),variables('policyAssignments')[copyIndex()].parameters,createObject('assignmentName',variables('policyAssignments')[copyIndex()].assignmentName)))]" //This block selectively merges four objects to form one parameters set for the new deployment. First is the commonAssignmentParameters variable which contains the parameters that need to be attached to all policy assignments. Second is the policyAssignment-specific under variables('policyAssignments')[copyIndex()].parameter. Third is an assignmentName attribute. Fourth is the optional policyDefinitionId, which is only necessary for custom policies (defined above) which do not have static policyDefinitionIds. This is derived from the combination of the output of the policyDefinition deployment, and the customPolicyName optionally specified under variables('policyAssignments')[copyIndex()].
                 }
-            }
-        },
-        {
-            "type": "Microsoft.Authorization/policyAssignments",
-            "name": "[guid('12794019-7a00-42cf-95c2-882eed337cc8')]",
-            "apiVersion": "2019-09-01",
-            "location": "eastus",
-            "identity": {
-                "type": "SystemAssigned"
-            },
-            "properties": {
-                "scope": "[parameters('policyScopeId')]",
-                "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/12794019-7a00-42cf-95c2-882eed337cc8"
             }
         }
     ]
