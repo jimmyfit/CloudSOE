@@ -40,11 +40,25 @@
             }
         },
         {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-09-01-preview",
+            "name": "[guid(parameters('assignmentName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+                "principalId": "[reference(parameters('assignmentName'),'2019-09-01','Full').Identity.principalId]",
+                "scope": "[parameters('policyScopeId')]",
+                "principalType": "ServicePrincipal"
+            }
+        },
+        {
             "name": "[guid('/providers/Microsoft.Authorization/policyDefinitions/3cf2ab00-13f1-4d0c-8971-2ac904541a7e')]",
             "type": "Microsoft.PolicyInsights/remediations",
             "apiVersion": "2019-07-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]"
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(parameters('assignmentName')))]"
             ],
             "properties": {
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
@@ -56,7 +70,7 @@
             "type": "Microsoft.PolicyInsights/remediations",
             "apiVersion": "2019-07-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]"
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(parameters('assignmentName')))]"
             ],
             "properties": {
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
@@ -68,7 +82,7 @@
             "type": "Microsoft.PolicyInsights/remediations",
             "apiVersion": "2019-07-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]"
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(parameters('assignmentName')))]"
             ],
             "properties": {
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
@@ -80,7 +94,7 @@
             "type": "Microsoft.PolicyInsights/remediations",
             "apiVersion": "2019-07-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]"
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(parameters('assignmentName')))]"
             ],
             "properties": {
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
