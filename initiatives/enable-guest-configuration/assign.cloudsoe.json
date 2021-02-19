@@ -64,7 +64,7 @@
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
                 "policyDefinitionReferenceId": "Prerequisite_AddSystemIdentityWhenNone",
                 "filters": {
-                    "locations": []
+                    "locations": [""]
                 }
             }
         },
@@ -79,7 +79,7 @@
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
                 "policyDefinitionReferenceId": "Prerequisite_AddSystemIdentityWhenUser",
                 "filters": {
-                    "locations": []
+                    "locations": [""]
                 }
             }
         },
@@ -94,7 +94,7 @@
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
                 "policyDefinitionReferenceId": "Prerequisite_DeployExtensionWindows",
                 "filters": {
-                    "locations": []
+                    "locations": [""]
                 }
             }
         },
@@ -109,7 +109,7 @@
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
                 "policyDefinitionReferenceId": "Prerequisite_DeployExtensionLinux",
                 "filters": {
-                    "locations": []
+                    "locations": [""]
                 }
             }
         }
