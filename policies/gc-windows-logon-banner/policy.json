@@ -12,10 +12,27 @@
                 "contentType": "Custom",
                 "contentUri": "https://github.com/jimmyfit/CloudSOE/blob/master/guest-configuration/Packages/WindowsLogonBanner/WindowsLogonBanner.zip?raw=true",
                 "contentHash": "F74308E0B4EA81167ED1C49E7A5CE3F0899734A157493C5F5518DB0FB95B14CD",
-                "configurationParameter": {}
+                "configurationParameter": {
+                    "BannerText": "[[Registry]Ensure Windows logon banner text is set correctly;ValueData",
+                    "BannerTitle": "[[Registry]Ensure Windows logon banner title is set correctly;ValueData"
+                }
             }
         },
         "parameters": {
+            "BannerTitle": {
+                "metadata": {
+                    "displayName": "Banner Title",
+                    "description": "The text to display in the title of the Windows Logon banner."
+                },
+                "type": "string"
+            },
+            "BannerText": {
+                "metadata": {
+                    "displayName": "Banner Text",
+                    "description": "The text to display in the body of the Windows Logon banner."
+                },
+                "type": "string"
+            },
             "IncludeArcMachines": {
                 "Type": "String",
                 "Metadata": {
@@ -219,6 +236,10 @@
                             {
                                 "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/complianceStatus",
                                 "equals": "Compliant"
+                            },
+                            {
+                                "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/parameterHash",
+                                "equals": "[base64(concat('[Registry]Ensure Windows logon banner title is set correctly;ValueData', '=', parameters('BannerTitle'), ',', '[Registry]Ensure Windows logon banner text is set correctly;ValueData', '=', parameters('BannerText')))]"
                             }
                         ]
                     }

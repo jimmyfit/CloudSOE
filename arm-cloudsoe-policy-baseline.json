@@ -110,7 +110,14 @@
                 "relativeUri": "policies/gc-windows-logon-banner/assign.cloudsoe.json",
                 "assignmentName": "gc-windows-logon-banner",
                 "customPolicyName": "gc-windows-logon-banner",
-                "parameters": {}
+                "parameters": {
+                    "bannerTitle": {
+                        "value": "Some title text"
+                    },
+                    "bannerText": {
+                        "value": "Some text"
+                    }
+                }
             }
         ]
     },

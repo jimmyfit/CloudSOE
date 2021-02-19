@@ -25,6 +25,18 @@
             "metadata": {
                 "description": "Identifier for who is creating the assignment."
             }
+        },
+        "bannerTitle": {
+            "type": "string",
+            "metadata": {
+                "description": "The text to display in the title of the Windows Logon banner."
+            }
+        },
+        "bannerText": {
+            "type": "string",
+            "metadata": {
+                "description": "The text to display in the body of the Windows Logon banner."
+            }
         }
     },
     "resources": [
@@ -33,9 +45,6 @@
             "name": "[parameters('assignmentName')]",
             "apiVersion": "2019-09-01",
             "location": "eastus",
-            "identity": {
-                "type": "SystemAssigned"
-            },
             "properties": {
                 "scope": "[parameters('policyScopeId')]",
                 "policyDefinitionId": "[parameters('policyDefinitionId')]",
@@ -43,8 +52,11 @@
                     "assignedBy": "[parameters('assignedBy')]"
                 },
                 "parameters":  {
-                    "IncludeArcMachines": {
-                        "value": "True"
+                    "BannerTitle": {
+                        "value": "[parameters('bannerTitle')]"
+                    },
+                    "BannerText": {
+                        "value": "[parameters('bannerText')]"
                     }
                 }
             }

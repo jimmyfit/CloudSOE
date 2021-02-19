@@ -38,6 +38,68 @@
                 },
                 "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/12794019-7a00-42cf-95c2-882eed337cc8"
             }
+        },
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2018-09-01-preview",
+            "name": "[guid(parameters('assignmentName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]"
+            ],
+            "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+                "principalId": "[reference(parameters('assignmentName'),'2019-09-01','Full').Identity.principalId]",
+                "scope": "[parameters('policyScopeId')]",
+                "principalType": "ServicePrincipal"
+            }
+        },
+        {
+            "name": "[guid('/providers/Microsoft.Authorization/policyDefinitions/3cf2ab00-13f1-4d0c-8971-2ac904541a7e')]",
+            "type": "Microsoft.PolicyInsights/remediations",
+            "apiVersion": "2019-07-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(parameters('assignmentName')))]"
+            ],
+            "properties": {
+                "policyAssignmentId": "[reference(parameters('assignmentName'),'2019-09-01','Full').Id]",
+                "policyDefinitionReferenceId": "/providers/Microsoft.Authorization/policyDefinitions/3cf2ab00-13f1-4d0c-8971-2ac904541a7e"
+            }
+        },
+        {
+            "name": "[guid('/providers/Microsoft.Authorization/policyDefinitions/385f5831-96d4-41db-9a3c-cd3af78aaae6')]",
+            "type": "Microsoft.PolicyInsights/remediations",
+            "apiVersion": "2019-07-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(parameters('assignmentName')))]"
+            ],
+            "properties": {
+                "policyAssignmentId": "[reference(parameters('assignmentName'),'2019-09-01','Full').Id]",
+                "policyDefinitionReferenceId": "/providers/Microsoft.Authorization/policyDefinitions/385f5831-96d4-41db-9a3c-cd3af78aaae6"
+            }
+        },
+        {
+            "name": "[guid('/providers/Microsoft.Authorization/policyDefinitions/497dff13-db2a-4c0f-8603-28fa3b331ab6')]",
+            "type": "Microsoft.PolicyInsights/remediations",
+            "apiVersion": "2019-07-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(parameters('assignmentName')))]"
+            ],
+            "properties": {
+                "policyAssignmentId": "[reference(parameters('assignmentName'),'2019-09-01','Full').Id]",
+                "policyDefinitionReferenceId": "/providers/Microsoft.Authorization/policyDefinitions/497dff13-db2a-4c0f-8603-28fa3b331ab6"
+            }
+        },
+        {
+            "name": "[guid('/providers/Microsoft.Authorization/policyDefinitions/331e8ea8-378a-410f-a2e5-ae22f38bb0da')]",
+            "type": "Microsoft.PolicyInsights/remediations",
+            "apiVersion": "2019-07-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/roleAssignments', guid(parameters('assignmentName')))]"
+            ],
+            "properties": {
+                "policyAssignmentId": "[reference(parameters('assignmentName'),'2019-09-01','Full').Id]",
+                "policyDefinitionReferenceId": "/providers/Microsoft.Authorization/policyDefinitions/331e8ea8-378a-410f-a2e5-ae22f38bb0da"
+            }
         }
     ]
 }

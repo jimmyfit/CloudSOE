@@ -11,13 +11,52 @@
             "type": "Microsoft.Authorization/policyDefinitions",
             "name": "[parameters('policyName')]",
             "apiVersion": "2019-09-01",
-            "location": "eastus",
             "properties": {
+                "displayName": "GC - Windows logon Banner",
+                "policyType": "Custom",
                 "mode": "All",
-                "displayName": "Set the Windows OS logon banner title and text to a specified value",
-                "description": "Sets the Windows OS logon banner title and text to a specified value.",
+                "description": "Audit if the Windows logon banner complies with the specified banner text and title.",
                 "metadata": {
-                    "category": "Guest Configuration"
+                    "category": "Guest Configuration",
+                    "guestConfiguration": {
+                        "name": "WindowsLogonBanner",
+                        "version": "1.0.0",
+                        "contentType": "Custom",
+                        "contentUri": "https://github.com/jimmyfit/CloudSOE/blob/master/guest-configuration/Packages/WindowsLogonBanner/WindowsLogonBanner.zip?raw=true",
+                        "contentHash": "F74308E0B4EA81167ED1C49E7A5CE3F0899734A157493C5F5518DB0FB95B14CD",
+                        "configurationParameter": {
+                            "BannerText": "[[Registry]Ensure Windows logon banner text is set correctly;ValueData",
+                            "BannerTitle": "[[Registry]Ensure Windows logon banner title is set correctly;ValueData"
+                        }
+                    }
+                },
+                "parameters": {
+                    "BannerTitle": {
+                        "metadata": {
+                            "displayName": "Banner Title",
+                            "description": "The text to display in the title of the Windows Logon banner."
+                        },
+                        "type": "string"
+                    },
+                    "BannerText": {
+                        "metadata": {
+                            "displayName": "Banner Text",
+                            "description": "The text to display in the body of the Windows Logon banner."
+                        },
+                        "type": "string"
+                    },
+                    "IncludeArcMachines": {
+                        "Type": "String",
+                        "Metadata": {
+                            "DisplayName": "Include Arc connected servers",
+                            "Description": "By selecting this option, you agree to be charged monthly per Arc connected machine."
+                        },
+                        "AllowedValues": [
+                            "True",
+                            "False"
+                        ],
+                        "DefaultValue": "False"
+                    }
                 },
                 "policyRule": {
                     "if": {
@@ -209,24 +248,14 @@
                                     {
                                         "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/complianceStatus",
                                         "equals": "Compliant"
+                                    },
+                                    {
+                                        "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/parameterHash",
+                                        "equals": "[[base64(concat('[Registry]Ensure Windows logon banner title is set correctly;ValueData', '=', parameters('BannerTitle'), ',', '[Registry]Ensure Windows logon banner text is set correctly;ValueData', '=', parameters('BannerText')))]"
                                     }
                                 ]
                             }
                         }
-                    }
-                },
-                "parameters": {
-                    "IncludeArcMachines": {
-                        "Type": "String",
-                        "Metadata": {
-                            "DisplayName": "Include Arc connected servers",
-                            "Description": "By selecting this option, you agree to be charged monthly per Arc connected machine."
-                        },
-                        "AllowedValues": [
-                            "True",
-                            "False"
-                        ],
-                        "DefaultValue": "False"
                     }
                 }
             }
