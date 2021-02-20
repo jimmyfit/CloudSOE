@@ -64,7 +64,7 @@
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
                 "policyDefinitionReferenceId": "Prerequisite_AddSystemIdentityWhenNone",
                 "filters": {},
-                "resourceDiscoveryMode": "ReEvaluateCompliance"
+                "resourceDiscoveryMode": "ExistingNonCompliant"
             }
         },
         {
@@ -78,7 +78,7 @@
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
                 "policyDefinitionReferenceId": "Prerequisite_AddSystemIdentityWhenUser",
                 "filters": {},
-                "resourceDiscoveryMode": "ReEvaluateCompliance"
+                "resourceDiscoveryMode": "ExistingNonCompliant"
             }
         },
         {
@@ -92,7 +92,7 @@
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
                 "policyDefinitionReferenceId": "Prerequisite_DeployExtensionWindows",
                 "filters": {},
-                "resourceDiscoveryMode": "ReEvaluateCompliance"
+                "resourceDiscoveryMode": "ExistingNonCompliant"
             }
         },
         {
@@ -106,7 +106,7 @@
                 "policyAssignmentId": "[resourceId('Microsoft.Authorization/policyAssignments', parameters('assignmentName'))]",
                 "policyDefinitionReferenceId": "Prerequisite_DeployExtensionLinux",
                 "filters": {},
-                "resourceDiscoveryMode": "ReEvaluateCompliance"
+                "resourceDiscoveryMode": "ExistingNonCompliant"
             }
         }
     ]
