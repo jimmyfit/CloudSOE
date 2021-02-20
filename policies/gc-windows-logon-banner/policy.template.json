@@ -25,8 +25,8 @@
                         "contentUri": "https://github.com/jimmyfit/CloudSOE/blob/master/guest-configuration/Packages/WindowsLogonBanner/WindowsLogonBanner.zip?raw=true",
                         "contentHash": "F74308E0B4EA81167ED1C49E7A5CE3F0899734A157493C5F5518DB0FB95B14CD",
                         "configurationParameter": {
-                            "BannerText": "[[Registry]Ensure Windows logon banner text is set correctly;ValueData",
-                            "BannerTitle": "[[Registry]Ensure Windows logon banner title is set correctly;ValueData"
+                            "BannerText": "[Registry]Ensure Windows logon banner text is set correctly;ValueData",
+                            "BannerTitle": "[Registry]Ensure Windows logon banner title is set correctly;ValueData"
                         }
                     }
                 },
