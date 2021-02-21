@@ -183,12 +183,15 @@
                 "definition": {
                     "customPolicyDefinitionName": "gc-windows-logon-banner"
                 },
+                "controls": [
+                    "ISM-0408-4"
+                ],
                 "parameters": {
                     "bannerTitle": {
-                        "value": "Some title text"
+                        "value": "REPLACE WITH YOUR LEGAL BANNER TITLE"
                     },
                     "bannerText": {
-                        "value": "Some text"
+                        "value": "REPLACE WITH YOUR LEGAL BANNER TEXT"
                     }
                 }
             }
@@ -236,9 +239,7 @@
                 "scope": "[variables('commonAssignmentParameters').policyScopeId]",
                 "policyDefinitionId": "[if(contains(variables('policyAssignments')[copyIndex()].definition,'builtinPolicyDefinitionId'), variables('policyAssignments')[copyIndex()].definition.builtinPolicyDefinitionId, reference(concat('PolicyDefinitions-',variables('policyAssignments')[copyIndex()].definition.customPolicyDefinitionName)).outputs.policyDefinitionId.value)]",
                 "displayName": "[variables('policyAssignments')[copyIndex()].displayName]",
-                "metadata": {
-                    "assignedBy": "[variables('commonAssignmentParameters').assignedBy]"
-                },
+                "metadata": "[if(contains(variables('policyAssignments')[copyIndex()],'controls'),union(createObject('assignedBy',variables('commonAssignmentParameters').assignedBy),variables('policyAssignments')[copyIndex()].controls),createObject('assignedBy',variables('commonAssignmentParameters').assignedBy))]",
                 "parameters": "[variables('policyAssignments')[copyIndex()].parameters]"
             }
         }
