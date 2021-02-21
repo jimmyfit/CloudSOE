@@ -60,13 +60,13 @@
                     ]
                 },
                 "parameters": {
-                    "workspaceId": {
+                    "logAnalytics_1": {
                         "value": "[parameters('workspaceId')]"
                     },
-                    "windowsSOEImageArray": {
+                    "listofImageIdToInclude_windows": {
                         "value": "[parameters('windowsSOEImageArray')]"
                     },
-                    "linuxSOEImageArray": {
+                    "listofImageIdToInclude_linux": {
                         "value": "[parameters('linuxSOEImageArray')]"
                     }
                 }
