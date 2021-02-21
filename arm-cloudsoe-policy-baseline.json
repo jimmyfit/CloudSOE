@@ -234,7 +234,7 @@
             //Not sure if this is necessary... "identity": "[variables('policyAssignments')[copyIndex()].identity]", //Todo: set this to if roledefinitionids gt zero, then system, else None. Toso: Populate with roleDefinitionIds or get from definition deployment
             "properties": {
                 "scope": "[variables('commonAssignmentParameters').policyScopeId]",
-                "policyDefinitionId": "[if(contains(variables('policyAssignments')[copyIndex()].definition,'builtinPolicyDefinitionId'), variables('policyAssignments')[copyIndex()].definition.builtinPolicyDefinitionId, reference(concat('PolicyDefinitions-',variables('policyAssignments')[copyIndex()].customPolicyDefinitionName)).outputs.policyDefinitionId.value)]",
+                "policyDefinitionId": "[if(contains(variables('policyAssignments')[copyIndex()].definition,'builtinPolicyDefinitionId'), variables('policyAssignments')[copyIndex()].definition.builtinPolicyDefinitionId, reference(concat('PolicyDefinitions-',variables('policyAssignments')[copyIndex()].definition.customPolicyDefinitionName)).outputs.policyDefinitionId.value)]",
                 "displayName": "[variables('policyAssignments')[copyIndex()].displayName]",
                 "metadata": {
                     "assignedBy": "[variables('commonAssignmentParameters').assignedBy]"
