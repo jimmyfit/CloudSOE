@@ -239,7 +239,7 @@
                 "scope": "[variables('commonAssignmentParameters').policyScopeId]",
                 "policyDefinitionId": "[if(contains(variables('policyAssignments')[copyIndex()].definition,'builtinPolicyDefinitionId'), variables('policyAssignments')[copyIndex()].definition.builtinPolicyDefinitionId, reference(concat('PolicyDefinitions-',variables('policyAssignments')[copyIndex()].definition.customPolicyDefinitionName)).outputs.policyDefinitionId.value)]",
                 "displayName": "[variables('policyAssignments')[copyIndex()].displayName]",
-                "metadata": "[if(contains(variables('policyAssignments')[copyIndex()],'controls'),union(createObject('assignedBy',variables('commonAssignmentParameters').assignedBy),variables('policyAssignments')[copyIndex()].controls),createObject('assignedBy',variables('commonAssignmentParameters').assignedBy))]",
+                "metadata": "[if(contains(variables('policyAssignments')[copyIndex()],'controls'),union(createObject('assignedBy',variables('commonAssignmentParameters').assignedBy),createObject('controls',variables('policyAssignments')[copyIndex()].controls)),createObject('assignedBy',variables('commonAssignmentParameters').assignedBy))]",
                 "parameters": "[variables('policyAssignments')[copyIndex()].parameters]"
             }
         }
