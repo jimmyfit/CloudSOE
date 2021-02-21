@@ -30,14 +30,9 @@
         }
     },
     "variables": {
-        "assignedBy": "CloudSOE Policy Baseline",
         "commonAssignmentParameters": {
-            "assignedBy": {
-                "value":"[variables('assignedBy')]"
-            },
-            "policyScopeId": {
-                "value": "[parameters('policyScopeId')]"
-            }
+            "assignedBy": "CloudSOE Policy Baseline",
+            "policyScopeId": "[parameters('policyScopeId')]"
         },
         "policyDefinitions":[
             {
