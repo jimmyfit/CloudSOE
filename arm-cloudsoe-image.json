@@ -246,18 +246,20 @@
     "outputs": {
         "windowsImageIds": {
             "type": "array",
-            "condition": "[equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Windows')]",
             "copy": {
                 "count": "[length(parameters('buildImages'))]",
-                "input": "[reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId]"
+                "input": {
+                    "id": "[if(equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Windows'),reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId,null())]"
+                }
             }
         },
         "linuxImageIds": {
             "type": "array",
-            "condition": "[equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Linux')]",
             "copy": {
                 "count": "[length(parameters('buildImages'))]",
-                "input": "[reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId]"
+                "input": {
+                    "id": "[if(equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Linux'),reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId,null())]"
+                }
             }
         }
     }
