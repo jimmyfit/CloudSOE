@@ -89,12 +89,10 @@
                     },
                     "windowsSOEImageArray": 
                     {
-                        "value": [
-                            "[reference('CloudSOEImageDeployment').outputs.ImageId.value]"
-                        ]
+                        "value": "[reference('CloudSOEImageDeployment').outputs.windowsImageIds.value]"
                     },
                     "linuxSOEImageArray": {
-                        "value": [] 
+                        "value": "[reference('CloudSOEImageDeployment').outputs.linuxImageIds.value]" 
                     }
                 }
             }

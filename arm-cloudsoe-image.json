@@ -244,8 +244,17 @@
         }
     ],
     "outputs": {
-        "imageId": {
+        "windowsImageIds": {
             "type": "array",
+            "condition": "[equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Windows')]",
+            "copy": {
+                "count": "[length(parameters('buildImages'))]",
+                "input": "[reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId]"
+            }
+        },
+        "linuxImageIds": {
+            "type": "array",
+            "condition": "[equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Linux')]",
             "copy": {
                 "count": "[length(parameters('buildImages'))]",
                 "input": "[reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId]"
