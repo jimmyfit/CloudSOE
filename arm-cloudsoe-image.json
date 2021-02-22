@@ -248,18 +248,14 @@
             "type": "array",
             "copy": {
                 "count": "[length(parameters('buildImages'))]",
-                "input": {
-                    "id": "[if(equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Windows'),reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId,null())]"
-                }
+                "input": "[if(equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Windows'),reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId,null())]"
             }
         },
         "linuxImageIds": {
             "type": "array",
             "copy": {
                 "count": "[length(parameters('buildImages'))]",
-                "input": {
-                    "id": "[if(equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Linux'),reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId,null())]"
-                }
+                "input": "[if(equals(variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType,'Linux'),reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId,null())]"
             }
         }
     }
