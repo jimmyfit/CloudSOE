@@ -187,7 +187,12 @@
                 },
             
                 "source": "[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source]",
-                "customize": "[union(variables('buildImageCustomisationAssignments')[parameters('buildImages')[copyIndex()].osType].customisations,variables('buildImageCustomisationAssignments')[parameters('buildImages')[copyIndex()].osType.publisher].customisations,variables('buildImageCustomisationAssignments')[parameters('buildImages')[copyIndex()].osType.publisher.offer].customisations,variables('buildImageCustomisationAssignments')[parameters('buildImages')[copyIndex()].osType.publisher.offer.sku].customisations)]",
+                //This section union()'s all of the customisations for each osType, publisher, offer, and sku
+                "customize": "[union(
+                    variables('buildImageCustomisationAssignments')[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType].customisations,
+                    variables('buildImageCustomisationAssignments')[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType][variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source.publisher].customisations, 
+                    variables('buildImageCustomisationAssignments')[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType][variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source.publisher][variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source.offer].customisations,
+                    variables('buildImageCustomisationAssignments')[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType][variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source.publisher][variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source.offer][variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source.sku].customisations)]",
                 "distribute": 
                 [
                     {   
