@@ -12,6 +12,85 @@
         "utcValue": {
             "type": "string",
             "defaultValue": "[utcNow()]"
+        },
+        "buildImages": {
+            "type": "array",
+            "allowedValues": [
+                "WindowsServer2019",
+                "WindowsServer2016"
+            ],
+            "defaultValue": [
+                "WindowsServer2019",
+                "WindowsServer2016"
+            ],
+            "metadata": {
+                "description": "Set of images to build."
+            }
+        },
+        "distributionRegions": {
+            "type": "array",
+            "defaultValue": ["eastus"]
+        }
+    },
+    "variables": {
+        "imagePropertiesSet":{
+            "WindowsServer2019": {
+                "osType": "Windows",
+                "source": {
+                    "type": "PlatformImage",
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2019-Datacenter",
+                    "version": "latest"
+                },
+                "soePublisher": "[parameters('publisher')]",
+                "soeOffer": "WindowsServerSOE",
+                "soeSku": "WindowsServer2019SOE",
+                "soeDescription": "Windows Server 2019 SOE"
+            },
+            "WindowsServer2016": {
+                "osType": "Windows",
+                "source": {
+                    "type": "PlatformImage",
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2019-Datacenter",
+                    "version": "latest"
+                },
+                "soePublisher": "[parameters('publisher')]",
+                "soeOffer": "WindowsServerSOE",
+                "soeSku": "WindowsServer2016SOE",
+                "soeDescription": "Windows Server 2016 SOE"
+            }
+        },
+
+        "buildImageCustomisationAssignments": {
+            "windows": {
+                "customisations":[
+                    {
+                        //Sets Windows OS logon banner in accordance with guideline ISM-0408-4
+                        "type": "PowerShell",
+                        "name": "CreateBuildPath",
+                        "runElevated": true,
+                        "inline": [
+                            "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\' -Name legalnoticecaption -Value 'REPLACE WITH YOUR LEGAL BANNER TITLE'",
+                            "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\' -Name legalnoticetext -Value 'REPLACE WITH YOUR LEGAL BANNER TEXT'"
+                        ]
+                    }
+                ],
+                "MicrosoftWindowsServer": {
+                    "customisations":[],
+                    "WindowsServer": {
+                        "customisations":[],
+                        "2019-Datacenter": {
+                            "customisations":[]
+                        },
+                        "2016-Datacenter": {
+                            "customisations":[]
+                        }
+                    }
+                }
+            }
         }
     },
     "resources": [
@@ -26,21 +105,26 @@
         },
         {
             "type": "Microsoft.Compute/galleries/images",
-            "name": "CloudSOESIG/WinServer2019-SOE",
+            "name": "[concat('CloudSOESIG/',variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].soeSku)]",
             "apiVersion": "2019-12-01",
             "location": "[resourceGroup().location]",
+            "copy": {
+                "name": "Image definitions",
+                "count": "[length(parameters('buildImages'))]",
+                "mode": "parallel"
+            },
             "dependsOn": [
                 "[resourceId('Microsoft.Compute/galleries', 'CloudSOESIG')]"
             ],
             "properties": {
-                "description": "Windows Server 2019 SOE",
-                "osType": "Windows",
+                "description": "[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].soeDescription]",
+                "osType": "[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].osType]",
                 "osState": "Generalized",
                 "endOfLifeDate": "2030-01-01",
                 "identifier": {
                 "publisher": "[parameters('publisher')]",
-                "offer": "WindowsServerSOE",
-                "sku": "WindowsServer2019"
+                "offer": "[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].soeOffer]",
+                "sku": "[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].soeSku]"
                 },
                 "recommended": {
                 "vCPUs": {
@@ -75,13 +159,18 @@
             }
         },
         {
-            "name": "WindowsServer2019SOE",
+            "name": "[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].soeSku]",
             "type": "Microsoft.VirtualMachineImages/imageTemplates",
             "apiVersion": "2020-02-14",
-            "location": "eastus",
+            "location": "[resourceGroup().location]",
+            "copy": {
+                "name": "Image templates",
+                "count": "[length(parameters('buildImages'))]",
+                "mode": "parallel"
+            },
             "dependsOn": [
                 "[resourceId('Microsoft.Authorization/roleAssignments', guid(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities','AIB'), 'b24988ac-6180-42a0-ab88-20f7382dd24c', resourceGroup().id, 'unique'))]",
-                "[resourceId('Microsoft.Compute/galleries/images', 'CloudSOESIG', 'WinServer2019-SOE')]"
+                "Image definitions"
             ],
             "identity": {
                 "type": "UserAssigned",
@@ -92,23 +181,13 @@
             "properties": {
                 "buildTimeoutInMinutes" : 100,
 
-                "vmProfile": 
-                        {
-                        "vmSize": "Standard_D1_v2",
-                        "osDiskSizeGB": 127
-                        },
-            
-                "source": {
-                    "type": "PlatformImage",
-                    "publisher": "MicrosoftWindowsServer",
-                    "offer": "WindowsServer",
-                    "sku": "2019-Datacenter",
-                    "version": "latest"
-                    
+                "vmProfile": {
+                    "vmSize": "Standard_D2_v2",
+                    "osDiskSizeGB": 127
                 },
-                "customize": [
-
-                ],
+            
+                "source": "[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source]",
+                "customize": "[union(variables('buildImageCustomisationAssignments')[parameters('buildImages')[copyIndex()].osType].customisations,variables('buildImageCustomisationAssignments')[parameters('buildImages')[copyIndex()].osType.publisher].customisations,variables('buildImageCustomisationAssignments')[parameters('buildImages')[copyIndex()].osType.publisher.offer].customisations,variables('buildImageCustomisationAssignments')[parameters('buildImages')[copyIndex()].osType.publisher.offer.sku].customisations)]",
                 "distribute": 
                 [
                     {   
@@ -117,11 +196,9 @@
                         "runOutputName": "BuildOutput",
                         "artifactTags": {
                             "source": "azureVmImageBuilder",
-                            "baseosimg": "windows2019"
+                            "baseosimg": "[variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].source.sku]"
                         },
-                        "replicationRegions": [
-                        "eastus"
-                        ]
+                        "replicationRegions": "[parameters('distributionRegions')]"
                     }
                 ]
             }
@@ -129,10 +206,15 @@
         {
             "type": "Microsoft.Resources/deploymentScripts",
             "apiVersion": "2020-10-01",
-            "name": "AIBImageBuild",
+            "name": "[concat('AIBImageBuild-',copyIndex())]",
             "location": "[resourceGroup().location]",
+            "copy": {
+                "name": "Image builds",
+                "count": "[length(parameters('buildImages'))]",
+                "mode": "parallel"
+            },
             "dependsOn": [
-                "[resourceId('Microsoft.VirtualMachineImages/imageTemplates', 'WindowsServer2019SOE')]"
+                "Image templates"
             ],
             "kind": "AzureCLI",
             "identity": {
@@ -145,7 +227,7 @@
                 "azCliVersion": "2.9.1",
                 "forceUpdateTag": "[parameters('utcValue')]",
                 "timeout": "PT2H",
-                "arguments": "[concat(resourceGroup().name, ' ', 'WindowsServer2019SOE')]",
+                "arguments": "[concat(resourceGroup().name, ' ', variables('imagePropertiesSet')[parameters('buildImages')[copyIndex()]].soeSku)]",
                 "scriptContent": "
                     az login --identity
                     az image builder run -g $1 -n $2
@@ -158,8 +240,11 @@
     ],
     "outputs": {
         "imageId": {
-            "value": "[reference('AIBImageBuild').outputs.artifactId]",
-            "type": "string"
+            "type": "array",
+            "copy": {
+                "count": "[length(parameters('buildImages'))]",
+                "input": "[reference(concat('AIBImageBuild-',copyIndex())).outputs.artifactId]"
+            }
         }
     }
 }
