@@ -37,14 +37,24 @@ jobs:
           scope: subscription
           region: eastus
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTIONID }} 
-      - name: Deploy the test VM
+      - name: Deploy the test VM - WS2019
         run: |
           az vm create \
           --resource-group CloudSOEImageRG \
-          --name TestVM \
+          --name TestVM2019 \
           --admin-username ${{ secrets.TESTVM_USERNAME }} \
           --admin-password ${{ secrets.TESTVM_PASSWORD }} \
-          --image ${{ secrets.TESTVM_IMAGENAME }} \
-          --location eastus                  
+          --image ${{ secrets.TESTVM_IMAGENAME_2019 }} \
+          --location eastus
+      - name: Deploy the test VM - WS2016
+        run: |
+          az vm create \
+          --resource-group CloudSOEImageRG \
+          --name TestVM2016 \
+          --admin-username ${{ secrets.TESTVM_USERNAME }} \
+          --admin-password ${{ secrets.TESTVM_PASSWORD }} \
+          --image ${{ secrets.TESTVM_IMAGENAME_2016 }} \
+          --location eastus
+          
 
 
