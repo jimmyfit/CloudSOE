@@ -73,8 +73,8 @@
                         "name": "CreateBuildPath",
                         "runElevated": true,
                         "inline": [
-                            "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\' -Name legalnoticecaption -Value 'REPLACE WITH YOUR LEGAL BANNER TITLE'",
-                            "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\' -Name legalnoticetext -Value 'REPLACE WITH YOUR LEGAL BANNER TEXT'"
+                            "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\' -Name legalnoticecaption -Value 'REPLACE WITH YOUR LEGAL BANNER TITLE'",
+                            "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\' -Name legalnoticetext -Value 'REPLACE WITH YOUR LEGAL BANNER TEXT'"
                         ]
                     }
                 ],
