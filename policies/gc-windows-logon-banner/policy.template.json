@@ -22,7 +22,7 @@
                         "name": "WindowsLogonBanner",
                         "version": "1.0.0",
                         "contentType": "Custom",
-                        "contentUri": "https://github.com/jimmyfit/CloudSOE/blob/master/guest-configuration/Packages/WindowsLogonBanner/WindowsLogonBanner.zip?raw=true",
+                        "contentUri": "https://tempgcstore.blob.core.windows.net/gcpolicy/WindowsLogonBanner.zip?sv=2019-07-07&sr=b&sig=GynvFWBhZ5qIBuMrJwittVbBtdoAIiGrA34KGkfk1xY%3D&st=2021-02-23T12%3A12%3A50Z&se=2024-02-23T12%3A12%3A50Z&sp=rl",
                         "contentHash": "F74308E0B4EA81167ED1C49E7A5CE3F0899734A157493C5F5518DB0FB95B14CD",
                         "configurationParameter": {
                             "BannerText": "[Registry]Ensure Windows logon banner text is set correctly;ValueData",
