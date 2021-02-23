@@ -37,6 +37,10 @@ jobs:
           scope: subscription
           region: eastus
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTIONID }} 
+      - name: Wait for Policy to take effect
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '1800s'
       - name: Deploy the test VM - WS2019
         run: |
           az vm create \
