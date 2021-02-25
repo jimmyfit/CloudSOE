@@ -76,7 +76,7 @@
                             "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\' -Name legalnoticecaption -Value 'REPLACE WITH YOUR LEGAL BANNER TITLE'",
                             "Set-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\' -Name legalnoticetext -Value 'REPLACE WITH YOUR LEGAL BANNER TEXT'"
                         ]
-                    }
+                    }                    
                 ],
                 "MicrosoftWindowsServer": {
                     "customisations":[],
