@@ -46,7 +46,12 @@
             {
                 "relativeUri": "policies/gc-windows-logon-banner/policy.template.json",
                 "customPolicyDefinitionName": "gc-windows-logon-banner"
+            },
+            {
+                "relativeUri": "policies/enable-vulnerability-assessment/policy.template.json",
+                "customPolicyDefinitionName": "enable-vulnerability-assessment"
             }
+            
         ],
         "policyAssignments": [
             {
@@ -191,6 +196,21 @@
                 },
                 "controls": [
                     "ISM-0459-3"
+                ],
+                "parameters": {
+                }
+            },
+            {
+                "assignmentName": "enable-vulnerability-assessment",
+                "displayName": "Disk encryption should be applied on virtual machines",
+                "definition": {
+                    "customPolicyDefinitionName": "enable-vulnerability-assessment",
+                    "roleDefinitionIds": [
+                        "fb1c8493-542b-48eb-b624-b4c8fea62acd"
+                    ]
+                },
+                "controls": [
+                    "ISM-1608-0"
                 ],
                 "parameters": {
                 }
