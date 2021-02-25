@@ -184,21 +184,15 @@
                 }
             },
             {
-                "assignmentName": "gc-windows-logon-banner",
-                "displayName": "Audit Windows OS logon banner text",
+                "assignmentName": "disk-encryption",
+                "displayName": "Disk encryption should be applied on virtual machines",
                 "definition": {
-                    "customPolicyDefinitionName": "gc-windows-logon-banner"
+                    "builtinPolicyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/0961003e-5a0a-4549-abde-af6a37f2724d"
                 },
                 "controls": [
-                    "ISM-0408-4"
+                    "ISM-0459-3"
                 ],
                 "parameters": {
-                    "bannerTitle": {
-                        "value": "REPLACE WITH YOUR LEGAL BANNER TITLE"
-                    },
-                    "bannerText": {
-                        "value": "REPLACE WITH YOUR LEGAL BANNER TEXT"
-                    }
                 }
             }
         ]
