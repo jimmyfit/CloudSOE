@@ -50,7 +50,6 @@
         ],
         "policyAssignments": [
             {
-                "relativeUri": "initiatives/enable-azure-monitor-for-vms/assign.cloudsoe.json",
                 "assignmentName": "enable-azure-monitor-for-vms",
                 "displayName": "Enable Azure Monitor for VMs",
                 "definition": {
@@ -72,7 +71,6 @@
                 }
             },
             {
-                "relativeUri": "initiatives/enable-guest-configuration/assign.cloudsoe.json",
                 "assignmentName": "enable-guest-configuration",
                 "displayName": "Install Guest Configuration prerequisites",
                 "definition": {
@@ -84,7 +82,6 @@
                 "parameters": {}
             },
             {
-                "relativeUri": "policies/enable-automanage-profile/assign.nonprod.json",
                 "assignmentName": "enable-automanage-profile-nonprod",
                 "displayName": "Enable Automanage for non-prod systems",
                 "definition": {
@@ -109,7 +106,6 @@
                 }
             },
             {
-                "relativeUri": "policies/enable-automanage-profile/assign.prod.json",
                 "assignmentName": "enable-automanage-profile-prod",
                 "displayName": "Enable Automanage for production systems",
                 "definition":{
@@ -134,7 +130,6 @@
                 }
             },
             {
-                "relativeUri": "policies/tag-vm-resources/assign.soetag.json",
                 "assignmentName": "tag-vm-resources-soe",
                 "displayName": "Tag all SOE-image VMs as SOE",
                 "definition": {
@@ -153,7 +148,6 @@
                 }
             },
             {
-                "relativeUri": "policies/tag-vm-resources/assign.prodtag.json",
                 "assignmentName": "tag-vm-resources-prod",
                 "displayName": "Tag all deployed VMs as production by default",
                 "definition": {
@@ -172,7 +166,24 @@
                 }
             },
             {
-                "relativeUri": "policies/gc-windows-logon-banner/assign.cloudsoe.json",
+                "assignmentName": "gc-windows-logon-banner",
+                "displayName": "Audit Windows OS logon banner text",
+                "definition": {
+                    "customPolicyDefinitionName": "gc-windows-logon-banner"
+                },
+                "controls": [
+                    "ISM-0408-4"
+                ],
+                "parameters": {
+                    "bannerTitle": {
+                        "value": "REPLACE WITH YOUR LEGAL BANNER TITLE"
+                    },
+                    "bannerText": {
+                        "value": "REPLACE WITH YOUR LEGAL BANNER TEXT"
+                    }
+                }
+            },
+            {
                 "assignmentName": "gc-windows-logon-banner",
                 "displayName": "Audit Windows OS logon banner text",
                 "definition": {
