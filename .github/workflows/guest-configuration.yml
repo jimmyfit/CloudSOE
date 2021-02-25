@@ -12,7 +12,7 @@ on:
 
 jobs:
   Compile-Guest-Configuration:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
       - name: Compile MOFs
